@@ -16,8 +16,8 @@ void ShipsGame::init()
 	bigShip = new big_ship;
 
 	Point head, bigHead;
-	//head.init(7 % GameConfig::GAME_WIDTH, 7 % GameConfig::GAME_HEIGHT);
-	//smallShip->init(head, '#', GameConfig::COLORS[2]);
+	head.init(7 % GameConfig::GAME_WIDTH, 7 % GameConfig::GAME_HEIGHT);
+	smallShip->init(head, '#', GameConfig::COLORS[2]);
 
 	bigHead.init(1 % GameConfig::GAME_WIDTH, 1 % GameConfig::GAME_HEIGHT);
 	bigShip->init(bigHead, '@', GameConfig::COLORS[3]);
@@ -51,23 +51,27 @@ void ShipsGame::drawBorder()
 	
 void ShipsGame::run()
 {
+	char lastShip = ' ';
+	int keyPressed = 0;
+
 	while (true)
 	{
-		int keyPressed = 0;
 		if (_kbhit())
 		{
 			keyPressed = _getch();
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 				break;
 			if (keyPressed == (int)GameConfig::eKeys::SWAP_BIG_LOWER || keyPressed == (int)GameConfig::eKeys::SWAP_BIG)
-				break;
-			if (keyPressed == (int)GameConfig::eKeys::SWAP_BIG_LOWER || keyPressed == (int)GameConfig::eKeys::SWAP_BIG)
-				break;
+				lastShip = 'b';
+			if (keyPressed == (int)GameConfig::eKeys::SWAP_SMALL_LOWER || keyPressed == (int)GameConfig::eKeys::SWAP_SMALL)
+				lastShip = 's';
 		}
-		Sleep(800);
+		Sleep(500);
 
-		//smallShip->move((GameConfig::eKeys)keyPressed);
-		bigShip->move((GameConfig::eKeys)keyPressed);
+		if(lastShip == 'b')
+			bigShip->move((GameConfig::eKeys)keyPressed);
+		if(lastShip == 's')
+			smallShip->move((GameConfig::eKeys)keyPressed);
 	}
 }
 	
