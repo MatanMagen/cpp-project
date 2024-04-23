@@ -8,7 +8,7 @@ public:
 		LOWER_UP = 'w', UP = 'W', LOWER_DOWN = 'x', DOWN = 'X', ESC = 27, SWAP_BIG_LOWER = 'b',
 		SWAP_BIG = 'B', SWAP_SMALL_LOWER = 's', SWAP_SMALL = 'S' };
 	static constexpr int GAME_WIDTH = 80;
-	static constexpr int GAME_HEIGHT = 20;
+	static constexpr int GAME_HEIGHT = 18;
 
 	static constexpr int MIN_X = 10;
 	static constexpr int MIN_Y = 3;

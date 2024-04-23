@@ -7,6 +7,7 @@
 #include <iostream>
 #include <conio.h>
 #include <Windows.h>
+
 using namespace std;
 
 void ShipsGame::init()
@@ -37,9 +38,12 @@ void ShipsGame::drawBorder()
 
 		gotoxy(col, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y);
 		cout << "-";
+
+		gotoxy(col, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2);
+		cout << "-";
 	}
 
-	for (int row = GameConfig::MIN_Y - 1; row <= GameConfig::GAME_HEIGHT + GameConfig::MIN_Y; row++)
+	for (int row = GameConfig::MIN_Y - 1 ; row <= GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2; row++)
 	{
 		gotoxy(GameConfig::MIN_X - 1, row);
 		cout << "|";
@@ -47,6 +51,47 @@ void ShipsGame::drawBorder()
 		gotoxy(GameConfig::GAME_WIDTH + GameConfig::MIN_X, row);
 		cout << "|";
 	}
+	
+	//gameTime();
+	RemainingLifes();
+}
+
+void ShipsGame::gameTime()
+{
+	int time = 0, minutes = 1, seconds = 10;
+
+	time += minutes * 60 + seconds;
+
+	gotoxy(GameConfig::MIN_X + 1, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
+	cout << "The time Remaining is 0:";
+
+	for (int i = time; i > 0; i--) {
+		gotoxy(GameConfig::MIN_X + 31, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
+		printf("\b");
+		printf("\b");
+		printf("\b");
+		printf("\b");
+		printf("\b");
+		printf("\b");
+		
+		cout << minutes << ":" << seconds << endl;
+		minutes = i % 60 == 0 ? --minutes : minutes;
+		seconds = seconds == 0 ? 59 : --seconds;
+		Sleep(1000); 
+	}
+
+	//system("clear");
+	gotoxy(GameConfig::MIN_X - 1, 0);
+	cout << "*******************\nTimer ended!";
+}
+
+void ShipsGame::RemainingLifes()
+{
+	int numLifes = 3;
+	gotoxy(GameConfig::MIN_X + 50, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
+	cout << "The lifes Remaining is :";
+	for (int i = 0; i < numLifes; i++)
+		cout << "* ";
 }
 	
 void ShipsGame::run()

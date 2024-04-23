@@ -10,6 +10,8 @@ class ShipsGame
 	big_ship* bigShip;
 
 	void drawBorder();
+	void gameTime();
+	void RemainingLifes();
 public:
 	void init();
 	void run();
