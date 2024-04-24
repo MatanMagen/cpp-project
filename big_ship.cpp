@@ -1,6 +1,12 @@
 #include "big_ship.h"
 #include "point.h"
 
+#include <stdlib.h>
+#include <iostream>
+#include <conio.h>
+#include <Windows.h>
+
+
 void big_ship::init(Point& head, char ch, int color)
 {
 	body[0][0] = head;
@@ -23,6 +29,7 @@ void big_ship::init(Point& head, char ch, int color)
 			body[i][j].draw(ch, backgroundcolor);
 	}
 
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 }
 void big_ship::move(GameConfig::eKeys direction)
 {
@@ -36,7 +43,7 @@ void big_ship::move(GameConfig::eKeys direction)
 		body[1][1].move(direction);
 		body[1][0].draw(ch, backgroundcolor);
 		body[1][1].draw(ch, backgroundcolor);
-		
+
 	}
 	else if (direction == GameConfig::eKeys::RIGHT || direction == GameConfig::eKeys::LOWER_RIGHT || direction == GameConfig::eKeys::LEFT || direction == GameConfig::eKeys::LOWER_LEFT)
 	{
@@ -48,7 +55,19 @@ void big_ship::move(GameConfig::eKeys direction)
 		body[1][1].move(direction);
 		body[0][1].draw(ch, backgroundcolor);
 		body[1][1].draw(ch, backgroundcolor);
-		
+
 	}
-	
+	else if (direction == GameConfig::eKeys::PAUSE)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				body[i][j].draw(ch, backgroundcolor);
+			}
+
+		}
+	}
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 }

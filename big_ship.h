@@ -14,7 +14,10 @@ private:
 public:
 	void init(Point& head, char ch, int color);
 	void move(GameConfig::eKeys direction);
+	Point& getHead()
+	{
+		return body[0][0];
+	}
 };
 
 #endif
-

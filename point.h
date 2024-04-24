@@ -20,10 +20,10 @@ public:
 	int gety() {
 		return this->y;
 	}
-	void setx(int x){
+	void setx(int x) {
 		this->x = x;
 	}
-	void sety(int y){
+	void sety(int y) {
 		this->y = y;
 	}
 };

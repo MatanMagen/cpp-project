@@ -50,7 +50,7 @@ void testShipsGame()
 		theGame.run();
 		theGame.freeMemory();
 	}
-	
+
 }
 
 int menu()
@@ -94,7 +94,7 @@ int menu()
 			exit(1);
 		}
 	}
-	
+
 	return action;
 }
 
