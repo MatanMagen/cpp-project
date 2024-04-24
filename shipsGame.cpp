@@ -113,10 +113,15 @@ void ShipsGame::run()
 {
 	int time = -1;
 	char lastShip = ' ';
+<<<<<<< HEAD
 	int keyPressed = 0, action;
 	bool pauseMode = false;
 
 	gameTime(&time);
+=======
+	int keyPressed = 0,action;
+	bool pauseMode = false;
+>>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 
 	while (true)
 	{
@@ -134,7 +139,11 @@ void ShipsGame::run()
 				{
 					clrscr();
 					pauseMode = true;
+<<<<<<< HEAD
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+=======
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[5]);
+>>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 					cout << "Game paused, press ESC again to continue or 9 to Exit";
 				}
 				else
@@ -152,7 +161,24 @@ void ShipsGame::run()
 		}
 
 		Sleep(500);
+		if (!pauseMode)
+		{
+			if(keyPressed == (int)GameConfig::eKeys::ESC)
+			{
+				bigShip->move(GameConfig::eKeys::PAUSE);
+				smallShip->move(GameConfig::eKeys::PAUSE);
+			}
+			else
+			{
+				if (lastShip == 'b')
+					bigShip->move((GameConfig::eKeys)keyPressed);
+				if (lastShip == 's')
+					smallShip->move((GameConfig::eKeys)keyPressed);
+			}
 
+		}
+
+<<<<<<< HEAD
 		if (!pauseMode)
 		{
 			gameTime(&time);
@@ -172,5 +198,7 @@ void ShipsGame::run()
 
 		}
 
+=======
+>>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 	}
 }
