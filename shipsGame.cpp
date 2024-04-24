@@ -105,6 +105,11 @@ void ShipsGame::run()
 		if (_kbhit())
 		{
 			keyPressed = _getch();
+			if (keyPressed == (int)GameConfig::eKeys::EXIT)
+			{
+				cout << "exit game tnx";
+				break;
+			}
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 			{
 				if (!pauseMode)
@@ -113,9 +118,6 @@ void ShipsGame::run()
 					pauseMode = true;
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[5]);
 					cout << "Game paused, press ESC again to continue or 9 to Exit";
-			/*		cin >> action;
-					cout << "Exiting the game";
-					exit(1);*/
 				}
 				else
 				{
