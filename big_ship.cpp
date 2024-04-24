@@ -50,5 +50,16 @@ void big_ship::move(GameConfig::eKeys direction)
 		body[1][1].draw(ch, backgroundcolor);
 		
 	}
+	else if (direction == GameConfig::eKeys::PAUSE)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				body[i][j].draw(ch, backgroundcolor);
+			}
+
+		}
+	}
 	
 }
