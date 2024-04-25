@@ -1,35 +1,35 @@
 #include "ship.h"
+#include "board.h"
 
-#include <stdlib.h>
-#include <iostream>
-#include <conio.h>
 #include <Windows.h>
 
-void Ship::init(Point& head, char ch, int color)
+void Ship::move(GameConfig::eKeys direction, char ch)
 {
-	this->ch = ch;
-	this->backgroundcolor = color;
-	body[0] = head;
-	body[1].setx(head.getx() + 1);
-	body[1].sety(head.gety());
-	body[0].draw(ch, backgroundcolor);
-	body[1].draw(ch, backgroundcolor);
+	Board board;
 
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-}
-void Ship::move(GameConfig::eKeys direction)
-{
 	if (direction != GameConfig::eKeys::PAUSE)
 	{
-		body[1].draw(' ', GameConfig::COLORS[0]);
-		body[1] = body[0];
-		body[0].move(direction);
-		body[0].draw(ch, backgroundcolor);
+		/*pos[1].draw(' ', GameConfig::COLORS[0]);
+		pos[1] = pos[0];
+		pos[0].move(direction);
+		pos[0].draw('@', GameConfig::COLORS[0]);*/
+
+		for (int i = 0; i < size; i++)
+		{
+			pos[i].draw(' ', GameConfig::COLORS[0]);
+		}
+
+		for (int i = 0; i < size; i++)
+		{
+			pos[i].move(direction);
+			pos[i].draw(ch, GameConfig::COLORS[0]);
+		}
+		
 	}
 	else
 	{
-		body[0].draw(ch, backgroundcolor);
-		body[1].draw(ch, backgroundcolor);
+		for (int i = 0; i < size; i++)
+			pos[i].draw(ch, GameConfig::COLORS[0]);
 	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);

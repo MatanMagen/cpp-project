@@ -2,23 +2,25 @@
 #define SHIPS_GAMES_H
 
 #include "gameConfig.h"
+#include "Board.h"
 
 class Ship;
-class big_ship;
 class Block;
+class Board;
 
 class ShipsGame
 {
-	Ship* smallShip;
-	big_ship* bigShip;
-	Block* block1;
-	//Block* block2;
-
-	void drawBorder();
-	void gameTime(int* time);
-	void RemainingLifes();
+	Board board;
+	
 public:
-	void init();
+	void init() {
+		board.init();
+	}
+	void showMenu() {
+		board.show();
+	}
+	void gameTime(int* time);
+	void RemainingLifes(int numLives);
 	void run();
 	void freeMemory();
 };

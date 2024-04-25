@@ -1,74 +1,22 @@
 #include "shipsGame.h"
 #include "ship.h"
-#include "big_ship.h"
 #include "general.h"
 #include "block.h"
+#include "board.h"
 
-#include <stdlib.h>
-#include <iostream>
 #include <conio.h>
 #include <Windows.h>
 
 using namespace std;
-
-void ShipsGame::init()
-{
-	drawBorder();
-	smallShip = new Ship;
-	bigShip = new big_ship;
-	block1 = new Block;
-	//block2 = new Block;
-
-	Point head, bigHead, block1Head, block2Head;
-	head.init(7 % GameConfig::GAME_WIDTH, 7 % GameConfig::GAME_HEIGHT);
-	smallShip->init(head, '#', GameConfig::COLORS[2]);
-
-	bigHead.init(1 % GameConfig::GAME_WIDTH, 1 % GameConfig::GAME_HEIGHT);
-	bigShip->init(bigHead, '@', GameConfig::COLORS[3]);
-	
-	block1Head.init(1 % GameConfig::GAME_WIDTH, 10 % GameConfig::GAME_HEIGHT);
-	block1->init(block1Head, 'a', 2);
-	
-	//block2Head.init(5 % GameConfig::GAME_WIDTH, 5 % GameConfig::GAME_HEIGHT);
-	//block2->init(bigHead, 'b', 6);
-}
 
 void ShipsGame::freeMemory()
 {
 	//delete[]allShips;
 }
 
-void ShipsGame::drawBorder()
-{
-	for (int col = GameConfig::MIN_X; col < GameConfig::GAME_WIDTH + GameConfig::MIN_X; col++)
-	{
-		gotoxy(col, GameConfig::MIN_Y - 1);
-		cout << "W";
-
-		gotoxy(col, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y);
-		cout << "W";
-
-		gotoxy(col, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2);
-		cout << "W";
-	}
-
-	for (int row = GameConfig::MIN_Y - 1; row <= GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2; row++)
-	{
-		gotoxy(GameConfig::MIN_X - 1, row);
-		cout << "W";
-
-		gotoxy(GameConfig::GAME_WIDTH + GameConfig::MIN_X, row);
-		cout << "W";
-	}
-
-	gotoxy(GameConfig::MIN_X + 1, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
-	cout << "The time Remaining is ";
-	RemainingLifes();
-}
-
 void ShipsGame::gameTime(int* time)
 {
-	gotoxy(GameConfig::MIN_X + 23, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
+	gotoxy(GameConfig::MIN_X + 26, GameConfig::GAME_HEIGHT + 4);
 
 	if (*time < 100)
 	{
@@ -76,7 +24,7 @@ void ShipsGame::gameTime(int* time)
 		if (*time < 10)
 			cout << "0";
 	}
-	
+
 	cout << *time;
 	(*time)--;
 
@@ -89,17 +37,17 @@ void ShipsGame::gameTime(int* time)
 	}
 }
 
-void ShipsGame::RemainingLifes()
+void ShipsGame::RemainingLifes(int numLifes)
 {
-	int numLifes = 3;
-	gotoxy(GameConfig::MIN_X + 50, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
-	cout << "The lifes Remaining is :";
+	gotoxy(GameConfig::MIN_X + 72, GameConfig::GAME_HEIGHT + 4);
+	
 	for (int i = 0; i < numLifes; i++)
 		cout << "* ";
 }
 
 void ShipsGame::run()
 {
+	RemainingLifes(3);
 	int time = START_TIME;
 	char lastShip = ' ';
 	int keyPressed = 0, action;
@@ -130,7 +78,7 @@ void ShipsGame::run()
 				{
 					clrscr();
 					pauseMode = false;
-					drawBorder();
+					board.show();
 				}
 
 			}
@@ -148,18 +96,17 @@ void ShipsGame::run()
 
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 			{
-				bigShip->move(GameConfig::eKeys::PAUSE);
-				smallShip->move(GameConfig::eKeys::PAUSE);
+				board.getships(0).move(GameConfig::eKeys::PAUSE, '@');
+				board.getships(1).move(GameConfig::eKeys::PAUSE, '#');
 			}
 			else
 			{
 				if (lastShip == 'b')
-					bigShip->move((GameConfig::eKeys)keyPressed);
+					board.getships(1).move((GameConfig::eKeys)keyPressed, '#');
 				if (lastShip == 's')
-					smallShip->move((GameConfig::eKeys)keyPressed);
+					board.getships(0).move((GameConfig::eKeys)keyPressed, '@');
 			}
 
 		}
-
 	}
 }

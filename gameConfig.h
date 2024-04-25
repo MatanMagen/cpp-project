@@ -12,13 +12,12 @@ public:
 
 #define START_TIME 120
 #define NUM_BLOCKS 2
-#define MAX_BlOCK_SIZE 3
 
 	static constexpr int GAME_WIDTH = 80;
 	static constexpr int GAME_HEIGHT = 18;
 
-	static constexpr int MIN_X = 10;
-	static constexpr int MIN_Y = 3;
+	static constexpr int MIN_X = 0;
+	static constexpr int MIN_Y = 0;
 
 	static const int COLORS[];
 	static const int NUM_OF_COLORS;

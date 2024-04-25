@@ -14,18 +14,17 @@ public:
 	void init(int x, int y);
 	void draw(char ch, int backcolor);
 	void move(GameConfig::eKeys key);
-	bool isCharacterAtPosition(int x, int y, char expectedChar);
-	int getx() {
-		return this->x;
+	void set(int x1, int y1) {
+		x = x1;
+		y = y1;
+		diff_x = 0;
+		diff_y = 0;
 	}
-	int gety() {
-		return this->y;
+	int getX() const {
+		return x;
 	}
-	void setx(int x) {
-		this->x = x;
-	}
-	void sety(int y) {
-		this->y = y;
+	int getY() const {
+		return y;
 	}
 };
 
