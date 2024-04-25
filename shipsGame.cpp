@@ -16,7 +16,7 @@ void ShipsGame::init()
 	drawBorder();
 	smallShip = new Ship;
 	bigShip = new big_ship;
-	//block1 = new Block;
+	block1 = new Block;
 	//block2 = new Block;
 
 	Point head, bigHead, block1Head, block2Head;
@@ -26,9 +26,9 @@ void ShipsGame::init()
 	bigHead.init(1 % GameConfig::GAME_WIDTH, 1 % GameConfig::GAME_HEIGHT);
 	bigShip->init(bigHead, '@', GameConfig::COLORS[3]);
 	
-	//block1Head.init(10 % GameConfig::GAME_WIDTH, 10 % GameConfig::GAME_HEIGHT);
-	//block1->init(bigHead, 'a', 1);
-
+	block1Head.init(1 % GameConfig::GAME_WIDTH, 10 % GameConfig::GAME_HEIGHT);
+	block1->init(block1Head, 'a', 2);
+	
 	//block2Head.init(5 % GameConfig::GAME_WIDTH, 5 % GameConfig::GAME_HEIGHT);
 	//block2->init(bigHead, 'b', 6);
 }
@@ -43,53 +43,42 @@ void ShipsGame::drawBorder()
 	for (int col = GameConfig::MIN_X; col < GameConfig::GAME_WIDTH + GameConfig::MIN_X; col++)
 	{
 		gotoxy(col, GameConfig::MIN_Y - 1);
-		cout << "w";
+		cout << "W";
 
 		gotoxy(col, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y);
-		cout << "w";
+		cout << "W";
 
 		gotoxy(col, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2);
-		cout << "w";
+		cout << "W";
 	}
 
 	for (int row = GameConfig::MIN_Y - 1; row <= GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2; row++)
 	{
 		gotoxy(GameConfig::MIN_X - 1, row);
-		cout << "w";
+		cout << "W";
 
 		gotoxy(GameConfig::GAME_WIDTH + GameConfig::MIN_X, row);
-		cout << "w";
+		cout << "W";
 	}
 
 	gotoxy(GameConfig::MIN_X + 1, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
-	cout << "The time Remaining is 0:";
+	cout << "The time Remaining is ";
 	RemainingLifes();
 }
 
 void ShipsGame::gameTime(int* time)
 {
-	int minutes = 0, seconds = 0;
+	gotoxy(GameConfig::MIN_X + 23, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
 
-	if (*time == -1)
+	if (*time < 100)
 	{
-		minutes = TIME_MINUTES;
-		seconds = TIME_SECONDS;
-		*time += minutes * 60 + seconds;
+		cout << "0";
+		if (*time < 10)
+			cout << "0";
 	}
-	else
-	{
-		gotoxy(GameConfig::MIN_X + 25, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 1);
-		if (*time % 60 == 0)
-		{
-			minutes = *time % 60;
-			seconds = 59;
-		}
-		else
-			seconds = *time % 60;
-
-		cout << minutes << ":" << seconds << endl;
-		(*time)--;
-	}
+	
+	cout << *time;
+	(*time)--;
 
 	if (*time == 0)
 	{
@@ -111,17 +100,12 @@ void ShipsGame::RemainingLifes()
 
 void ShipsGame::run()
 {
-	int time = -1;
+	int time = START_TIME;
 	char lastShip = ' ';
-<<<<<<< HEAD
 	int keyPressed = 0, action;
 	bool pauseMode = false;
 
 	gameTime(&time);
-=======
-	int keyPressed = 0,action;
-	bool pauseMode = false;
->>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 
 	while (true)
 	{
@@ -139,11 +123,7 @@ void ShipsGame::run()
 				{
 					clrscr();
 					pauseMode = true;
-<<<<<<< HEAD
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-=======
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[5]);
->>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 					cout << "Game paused, press ESC again to continue or 9 to Exit";
 				}
 				else
@@ -161,24 +141,7 @@ void ShipsGame::run()
 		}
 
 		Sleep(500);
-		if (!pauseMode)
-		{
-			if(keyPressed == (int)GameConfig::eKeys::ESC)
-			{
-				bigShip->move(GameConfig::eKeys::PAUSE);
-				smallShip->move(GameConfig::eKeys::PAUSE);
-			}
-			else
-			{
-				if (lastShip == 'b')
-					bigShip->move((GameConfig::eKeys)keyPressed);
-				if (lastShip == 's')
-					smallShip->move((GameConfig::eKeys)keyPressed);
-			}
 
-		}
-
-<<<<<<< HEAD
 		if (!pauseMode)
 		{
 			gameTime(&time);
@@ -198,7 +161,5 @@ void ShipsGame::run()
 
 		}
 
-=======
->>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 	}
 }

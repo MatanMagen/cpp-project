@@ -9,6 +9,7 @@ using namespace std;
 #include "ship.h"
 #include "shipsGame.h"
 
+
 // part 1
 void testKbhitAndGetch();
 void movingStar();
@@ -42,8 +43,19 @@ int main()
 
 void testShipsGame()
 {
-	ShipsGame theGame;
+	//bool a;
+	//Point b;
 
+	//for (int i = 0; i < GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 2; i++)
+	//{
+	//	for (int j = 0; j < GameConfig::GAME_WIDTH + GameConfig::MIN_X; j++) {
+	//		b.init(i, j);
+	//		a = b.isCharacterAtPosition(i, j, 'W');
+	//		cout << a;
+	//	}
+	//}
+	ShipsGame theGame;
+	
 	if (menu() == 1)
 	{
 		theGame.init();
@@ -87,7 +99,6 @@ int menu()
 				"to Switched to the Big Ship press - b or B\n"
 				"Switched to the small Ship press  - s or S\n";
 		}
-
 		else if (action == 9)
 		{
 			cout << "Exiting the game";

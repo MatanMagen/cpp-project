@@ -3,9 +3,12 @@
 void Block::init(Point& head, char ch, int size)
 {
 	body[0] = head;
+	body[0].draw(ch, GameConfig::COLORS[0]);
+
 	for (int i = 1; i < size; i++)
 	{
 		body[i].setx(body[i - 1].getx() + 1);
+		body[i].sety(body[i - 1].gety());
 		body[i].draw(ch, GameConfig::COLORS[0]);
 	}
 

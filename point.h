@@ -14,6 +14,7 @@ public:
 	void init(int x, int y);
 	void draw(char ch, int backcolor);
 	void move(GameConfig::eKeys key);
+	bool isCharacterAtPosition(int x, int y, char expectedChar);
 	int getx() {
 		return this->x;
 	}

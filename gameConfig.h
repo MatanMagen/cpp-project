@@ -7,18 +7,13 @@ public:
 	enum class eKeys {
 		LOWER_LEFT = 'a', LEFT = 'A', LOWER_RIGHT = 'd', RIGHT = 'D',
 		LOWER_UP = 'w', UP = 'W', LOWER_DOWN = 'x', DOWN = 'X', ESC = 27, SWAP_BIG_LOWER = 'b',
-<<<<<<< HEAD
 		SWAP_BIG = 'B', SWAP_SMALL_LOWER = 's', SWAP_SMALL = 'S', PAUSE = 'p', EXIT = 57
 	};
 
-#define TIME_MINUTES 0
-#define TIME_SECONDS 15
+#define START_TIME 120
 #define NUM_BLOCKS 2
-#define MAX_BlOCK_SIZE 6
+#define MAX_BlOCK_SIZE 3
 
-=======
-		SWAP_BIG = 'B', SWAP_SMALL_LOWER = 's', SWAP_SMALL = 'S',PAUSE = 'p', EXIT = 57 };
->>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
 	static constexpr int GAME_WIDTH = 80;
 	static constexpr int GAME_HEIGHT = 18;
 

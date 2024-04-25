@@ -68,11 +68,6 @@ void big_ship::move(GameConfig::eKeys direction)
 
 		}
 	}
-<<<<<<< HEAD
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 }
-=======
-	
-}
->>>>>>> c54c8ebdb3ae4d5a96ae78058f133d328ff67b6c
