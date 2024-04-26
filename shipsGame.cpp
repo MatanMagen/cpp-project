@@ -96,15 +96,21 @@ void ShipsGame::run()
 
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 			{
-				board.getships(0).move(GameConfig::eKeys::PAUSE, '@');
-				board.getships(1).move(GameConfig::eKeys::PAUSE, '#');
+				board.getships(0).move(GameConfig::eKeys::PAUSE, '@', board);
+				board.getships(1).move(GameConfig::eKeys::PAUSE, '#', board);
+				keyPressed = 0;
 			}
 			else
 			{
-				if (lastShip == 'b')
-					board.getships(1).move((GameConfig::eKeys)keyPressed, '#');
-				if (lastShip == 's')
-					board.getships(0).move((GameConfig::eKeys)keyPressed, '@');
+				if (keyPressed != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPressed != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
+					&& keyPressed != (int)GameConfig::eKeys::SWAP_BIG && keyPressed != (int)GameConfig::eKeys::SWAP_SMALL && keyPressed != 0)
+				{
+					if (lastShip == 'b')
+						board.getships(1).move((GameConfig::eKeys)keyPressed, '#', board);
+					if (lastShip == 's')
+						board.getships(0).move((GameConfig::eKeys)keyPressed, '@', board);
+				}
+
 			}
 
 		}

@@ -23,7 +23,7 @@ public:
 	Point getPos(size_t i) const {
 		return pos[i];
 	}
-	void move(GameConfig::eKeys direction, char ch);
+	void move(GameConfig::eKeys direction, char ch, Board& board);
 };
 
 #endif

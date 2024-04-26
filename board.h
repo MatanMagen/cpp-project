@@ -51,6 +51,9 @@ class Board {
 public:
 	void init();
 	void show();
+	char(&getBoard())[HEIGHT][WIDTH + 1]{
+		return board;
+	}
 	Ship& getships(int i) {
 		return ships[i];
 	}
