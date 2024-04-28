@@ -71,5 +71,5 @@ void Point::move(GameConfig::eKeys key)
 		y = 1;
 	else if (y == -1)
 		y = GameConfig::GAME_HEIGHT + 2;
-	
+
 }

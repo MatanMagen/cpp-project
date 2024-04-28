@@ -2,6 +2,7 @@
 #define BLOCK_H
 
 #include "Point.h"
+#include "stdbool.h"
 
 class Board;
 
@@ -23,6 +24,10 @@ public:
 	Point getPos(size_t i) const {
 		return pos[i];
 	}
+	void editPoint(int i, Point newPos) {
+		pos[i] = newPos;
+	}
+	bool move(GameConfig::eKeys direction, char ch, Board& board);
 };
 
 #endif

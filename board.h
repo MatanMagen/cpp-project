@@ -7,6 +7,8 @@
 #include <iostream>
 #include <cstring>
 
+#define INFO_SIZE_HEIGHT 3
+
 class Board {
 	constexpr static size_t WIDTH = 80;
 	constexpr static size_t HEIGHT = 25;
@@ -32,13 +34,13 @@ class Board {
 			"W                                              W            W                  W", // 14
 			"W                                       W      b    W       WWWW               W", // 15
 			"W                                       WWWWWWWWWWWWW          W               W", // 16
-			"W                                                              W               W", // 17
-			"W                                W            AAA       X      W               W", // 18
+			"W                                             a                W               W", // 17
+			"W                                W            aa        X      W               W", // 18
 			"W                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW               W", // 19
 			"W                                                                              W", // 20
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 21
-			"W  The time Remaining is:                      The lifes Remaining is :        W", // 22
-			"W                                                                              W", // 23
+			"W  &       The time Remaining is:                                              W", // 22
+			"W          The lifes Remaining is:                                             W", // 23
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"  // 24
 	};
 	// the actual board that will be modified
@@ -56,6 +58,9 @@ public:
 	}
 	Ship& getships(int i) {
 		return ships[i];
+	}
+	Block& getblock(char ch) {
+		return blocks[ch - 'a'];
 	}
 	char getChar(Point pos);
 };

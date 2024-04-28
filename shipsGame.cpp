@@ -16,7 +16,7 @@ void ShipsGame::freeMemory()
 
 void ShipsGame::gameTime(int* time)
 {
-	gotoxy(GameConfig::MIN_X + 26, GameConfig::GAME_HEIGHT + 4);
+	gotoxy(GameConfig::MIN_X + 35, GameConfig::GAME_HEIGHT + 4);
 
 	if (*time < 100)
 	{
@@ -39,8 +39,8 @@ void ShipsGame::gameTime(int* time)
 
 void ShipsGame::RemainingLifes(int numLifes)
 {
-	gotoxy(GameConfig::MIN_X + 72, GameConfig::GAME_HEIGHT + 4);
-	
+	gotoxy(GameConfig::MIN_X + 35, GameConfig::GAME_HEIGHT + 5);
+
 	for (int i = 0; i < numLifes; i++)
 		cout << "* ";
 }
@@ -62,7 +62,7 @@ void ShipsGame::run()
 			keyPressed = _getch();
 			if (keyPressed == (int)GameConfig::eKeys::EXIT)
 			{
-				cout << "exit game tnx";
+				cout << "\nexit game tnx";
 				break;
 			}
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
@@ -88,7 +88,7 @@ void ShipsGame::run()
 				lastShip = 's';
 		}
 
-		Sleep(500);
+		Sleep(200);
 
 		if (!pauseMode)
 		{

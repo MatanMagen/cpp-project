@@ -10,8 +10,12 @@ public:
 		SWAP_BIG = 'B', SWAP_SMALL_LOWER = 's', SWAP_SMALL = 'S', PAUSE = 'p', EXIT = 57
 	};
 
-#define START_TIME 120
+#define START_TIME 18000
 #define NUM_BLOCKS 2
+#define BIG_SHIP_SIZE 4
+#define SMALL_SHIP_SIZE 2
+#define MAX_MOVE_BIG_SHIP 6
+#define MAX_MOVE_SMALL_SHIP 2
 
 	static constexpr int GAME_WIDTH = 80;
 	static constexpr int GAME_HEIGHT = 18;

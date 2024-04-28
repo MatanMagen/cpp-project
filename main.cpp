@@ -31,7 +31,6 @@ void testShipsGame()
 		theGame.run();
 		theGame.freeMemory();
 	}
-
 }
 
 int menu()
@@ -43,7 +42,8 @@ int menu()
 	{
 		cout << "Please select the desired action from the following menu:\n";
 		cout << "(1) Start a new game\n(8) Present instructions and keys\n(9) EXIT\n";
-		cin >> action;
+		action = _getch() - '0';
+		//cin >> action;
 
 		if (action == 1)
 		{
