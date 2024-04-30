@@ -51,7 +51,7 @@ void ShipsGame::run()
 	int time = START_TIME;
 	char lastShip = ' ';
 	int keyPressed = 0, action;
-	bool pauseMode = false;
+	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false ;
 
 	gameTime(&time);
 
@@ -96,8 +96,8 @@ void ShipsGame::run()
 
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 			{
-				board.getships(0).move(GameConfig::eKeys::PAUSE, '@', board);
-				board.getships(1).move(GameConfig::eKeys::PAUSE, '#', board);
+				smallShipFinish = board.getships(0).move(GameConfig::eKeys::PAUSE, '@', board);
+				bigShipFinish = board.getships(1).move(GameConfig::eKeys::PAUSE, '#', board);
 				keyPressed = 0;
 			}
 			else
@@ -105,14 +105,20 @@ void ShipsGame::run()
 				if (keyPressed != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPressed != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
 					&& keyPressed != (int)GameConfig::eKeys::SWAP_BIG && keyPressed != (int)GameConfig::eKeys::SWAP_SMALL && keyPressed != 0)
 				{
-					if (lastShip == 'b')
-						board.getships(1).move((GameConfig::eKeys)keyPressed, '#', board);
-					if (lastShip == 's')
-						board.getships(0).move((GameConfig::eKeys)keyPressed, '@', board);
+					if (lastShip == 'b' && !bigShipFinish)
+						bigShipFinish = board.getships(1).move((GameConfig::eKeys)keyPressed, '#', board);
+					if (lastShip == 's' && !smallShipFinish)
+						smallShipFinish += board.getships(0).move((GameConfig::eKeys)keyPressed, '@', board);
 				}
-
 			}
+		}
 
+		if (smallShipFinish && bigShipFinish)
+		{
+			clrscr();
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+			cout << "YOU WON!!!";
+			break;
 		}
 	}
 }

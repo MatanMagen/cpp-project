@@ -16,6 +16,7 @@ public:
 #define SMALL_SHIP_SIZE 2
 #define MAX_MOVE_BIG_SHIP 6
 #define MAX_MOVE_SMALL_SHIP 2
+#define NUMBER_SHIPS 2
 
 	static constexpr int GAME_WIDTH = 80;
 	static constexpr int GAME_HEIGHT = 18;

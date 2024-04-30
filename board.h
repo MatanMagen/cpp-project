@@ -30,13 +30,13 @@ class Board {
 			"W                                                                              W", // 10
 			"W                                                                              W", // 11
 			"W                                                                              W", // 12
-			"W                                              WWWWWWWWWWWWWW                  W", // 13
-			"W                                              W            W                  W", // 14
-			"W                                       W      b    W       WWWW               W", // 15
-			"W                                       WWWWWWWWWWWWW          W               W", // 16
-			"W                                             a                W               W", // 17
-			"W                                W            aa        X      W               W", // 18
-			"W                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW               W", // 19
+			"W                                              WWWWWWWWWWWWWWWWW               W", // 13
+			"W                                              W               W               W", // 14
+			"W                                       W      b    W          WWWW            W", // 15
+			"W                                       WWWWWWWWWWWWW             W            W", // 16
+			"W                                             a                   W            W", // 17
+			"W                                W            aa           W  X   W            W", // 18
+			"W                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW            W", // 19
 			"W                                                                              W", // 20
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 21
 			"W  &       The time Remaining is:                                              W", // 22
@@ -62,7 +62,6 @@ public:
 	Block& getblock(char ch) {
 		return blocks[ch - 'a'];
 	}
-	char getChar(Point pos);
 };
 
 #endif

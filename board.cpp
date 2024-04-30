@@ -30,7 +30,3 @@ void Board::show() {
 	}
 }
 
-char Board::getChar(Point pos)
-{
-	return board[pos.getY()][pos.getX()];
-}

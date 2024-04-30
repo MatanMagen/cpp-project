@@ -7,7 +7,8 @@
 #include "block.h"
 #include "board.h"
 
-void Ship::move(GameConfig::eKeys direction, char ch, Board& board)
+//function move the ship and return if ship finshed the game 
+bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 {
 	bool hitwall = false, hitBlock = false, toStop = false;
 	int sizeBlock;
@@ -16,7 +17,7 @@ void Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 
 	if (direction != GameConfig::eKeys::PAUSE)
 	{
-		//check if not wall infront
+		//check if wall or blocks or finish point infront
 		Point temp[4];
 		for (int i = 0; i < size; i++)
 		{
@@ -33,6 +34,16 @@ void Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 			{
 				hitBlock = true;
 				chBlock = boardPlace;
+			}
+			else if (boardPlace == 'X')
+			{
+				for (int i = 0; i < size; i++)
+				{
+					pos[i].draw(' ', GameConfig::COLORS[0]);
+					board.getBoard()[pos[i].getY()][pos[i].getX()] = ' ';
+				}
+
+				return true;
 			}
 		}
 
@@ -78,4 +89,5 @@ void Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+	return false;
 }

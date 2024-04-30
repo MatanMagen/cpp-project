@@ -9,9 +9,8 @@
 
 bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 {
-	bool hitwall = false, hitBlock = false;
-	char boardPlace, chBlock;
-	int blockX, blockY;
+	bool hitwall = false;
+	char boardPlace;
 	Block curr;
 
 	//check if not wall infront
