@@ -33,7 +33,6 @@ void ShipsGame::gameTime(int* time)
 		clrscr();
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 		cout << "you lost the game";
-		exit(0);
 	}
 }
 

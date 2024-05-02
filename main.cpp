@@ -71,7 +71,6 @@ int menu()
 		else if (action == 9)
 		{
 			cout << "Exiting the game";
-			exit(1);
 		}
 	}
 
