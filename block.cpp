@@ -9,7 +9,7 @@
 
 bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 {
-	bool hitwall = false;
+	bool hitwall = false, needFall = false;
 	char boardPlace;
 	Block curr;
 
@@ -52,6 +52,23 @@ bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 		{
 			board.getBoard()[pos[i].getY()][pos[i].getX()] = ch;
 		}
+
+		//check for fall
+		for (int i = 0; i < size; i++)
+		{
+			int x = board.getblock(ch).getPos(i).getX();
+			int y = board.getblock(ch).getPos(i).getY();
+			if (board.getBoard()[y][x - 1] == ' ')
+			{
+				needFall = true;
+			}
+		}
+
+		if (needFall)
+		{
+			move(GameConfig::eKeys::DOWN, ch, board);
+		}
+
 	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);

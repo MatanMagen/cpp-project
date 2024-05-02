@@ -18,10 +18,10 @@ class Board {
 	char original_board[HEIGHT][WIDTH + 1] = {
 		//   01234567890123456789012345678901234567890123456789012345678901234567890123456789
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 0
-			"W ##   @@                                                                      W", // 1
-			"W ##                                                                           W", // 2
-			"W                                                                              W", // 3
-			"W                                                                              W", // 4
+			"W ## W @@        b                                                             W", // 1
+			"W ## W           W   W                                                         W", // 2
+			"W    W           WWWWW                                                         W", // 3
+			"W    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW   WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 4
 			"W                                                                              W", // 5
 			"W                                                                              W", // 6
 			"W                                                                              W", // 7
@@ -32,7 +32,7 @@ class Board {
 			"W                                                                              W", // 12
 			"W                                              WWWWWWWWWWWWWWWWW               W", // 13
 			"W                                              W               W               W", // 14
-			"W                                       W      b    W          WWWW            W", // 15
+			"W                                       W      c    W          WWWW            W", // 15
 			"W                                       WWWWWWWWWWWWW             W            W", // 16
 			"W                                             a                   W            W", // 17
 			"W                                W            aa           W  X   W            W", // 18

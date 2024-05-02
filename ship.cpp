@@ -10,7 +10,7 @@
 //function move the ship and return if ship finshed the game 
 bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 {
-	bool hitwall = false, hitBlock = false, toStop = false;
+	bool hitwall = false, hitBlock = false, toStop = false,hitOtherPlayer = false;
 	int sizeBlock;
 	char boardPlace, chBlock;
 	Block block;
@@ -30,7 +30,7 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 			boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
 			if (boardPlace == 'W')
 				hitwall = true;
-			else if (boardPlace >= 'a' && boardPlace <= 'b')
+			else if (boardPlace >= 'a' && boardPlace <= 'c')
 			{
 				hitBlock = true;
 				chBlock = boardPlace;
@@ -45,10 +45,14 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 
 				return true;
 			}
+			else if ((ch != '#' && boardPlace == '#') || (ch != '@' && boardPlace == '@')) //both of them in the same place
+			{
+				hitOtherPlayer = true;
+			}
 		}
 
 		//actuall move
-		if (!hitwall)
+		if (!hitwall && !hitOtherPlayer)
 		{
 			if (hitBlock)
 			{

@@ -13,7 +13,7 @@ void Board::init() {
 			else if (board[i][j] == '#') {
 				ships[1].addPoint(j, i);
 			}
-			else if (board[i][j] >= 'a' && board[i][j] <= 'b') {
+			else if (board[i][j] >= 'a' && board[i][j] <= 'c') {
 				size_t block_index = board[i][j] - 'a';
 				blocks[block_index].addPoint(j, i);
 			}
