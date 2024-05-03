@@ -9,31 +9,40 @@ using namespace std;
 #include "ship.h"
 #include "shipsGame.h"
 
-void testShipsGame();
-int menu();
+void runShipsGame();
+void menu();
+void RemainingLifes(int numLifes);
 
 int main()
 {
-	testShipsGame();
+	menu();
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 	gotoxy(0, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 4);
 }
 
-void testShipsGame()
+void runShipsGame()
 {
-	ShipsGame theGame;
-	
-	if (menu() == 1)
+	bool possibleNextGame = true;
+	int numLifes = START_LIFE;
+
+	while (numLifes > 0 && possibleNextGame)
 	{
+		ShipsGame theGame;
+
+		clrscr();
 		theGame.init();
 		theGame.showMenu();
-		theGame.run();
+		RemainingLifes(numLifes);
+		possibleNextGame = theGame.run();
+		--numLifes;
 		theGame.freeMemory();
 	}
+
+	RemainingLifes(numLifes);
 }
 
-int menu()
+void menu()
 {
 	int action = 0;
 	Point point[GameConfig::GAME_WIDTH][GameConfig::GAME_HEIGHT];
@@ -43,12 +52,11 @@ int menu()
 		cout << "Please select the desired action from the following menu:\n";
 		cout << "(1) Start a new game\n(8) Present instructions and keys\n(9) EXIT\n";
 		action = _getch() - '0';
-		//cin >> action;
 
 		if (action == 1)
 		{
 			clrscr();
-			return 1;
+			runShipsGame();
 		}
 		else if (action == 8)
 		{
@@ -69,10 +77,25 @@ int menu()
 				"Switched to the small Ship press  - s or S\n";
 		}
 		else if (action == 9)
-		{
 			cout << "Exiting the game";
-		}
 	}
+}
 
-	return action;
+void RemainingLifes(int numLifes)
+{
+	if (numLifes == 0)
+	{
+		clrscr();
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+		cout << "you lost the game";
+	}
+	else
+	{
+		gotoxy(GameConfig::MIN_X + 40, GameConfig::GAME_HEIGHT + 5);
+		for (int i = 0; i < START_LIFE; i++)
+			cout << "\b \b";
+
+		for (int i = 0; i < numLifes; i++)
+			cout << "*";
+	}
 }

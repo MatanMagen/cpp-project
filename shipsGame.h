@@ -11,7 +11,8 @@ class Board;
 class ShipsGame
 {
 	Board board;
-	
+
+
 public:
 	void init() {
 		board.init();
@@ -20,8 +21,8 @@ public:
 		board.show();
 	}
 	void gameTime(int* time);
-	void RemainingLifes(int numLives);
-	void run();
+	bool RemainingLifes(int* time);
+	bool run();
 	void freeMemory();
 };
 

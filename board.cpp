@@ -29,4 +29,3 @@ void Board::show() {
 		std::cout << board[i] << std::endl;
 	}
 }
-

@@ -27,31 +27,46 @@ void ShipsGame::gameTime(int* time)
 
 	cout << *time;
 	(*time)--;
-
-	if (*time == 0)
-	{
-		clrscr();
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-		cout << "you lost the game";
-	}
 }
 
-void ShipsGame::RemainingLifes(int numLifes)
-{
-	gotoxy(GameConfig::MIN_X + 35, GameConfig::GAME_HEIGHT + 5);
+//bool ShipsGame::RemainingLifes(int* time)
+//{
+//	bool livesLost = false;
+//
+//	if (*time == 0)
+//	{
+//		numLifes--;
+//		*time = START_TIME;
+//		livesLost = true;
+//	}
+//
+//	if (numLifes == 0)
+//	{
+//		clrscr();
+//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+//		cout << "you lost the game";
+//	}
+//	else
+//	{
+//		gotoxy(GameConfig::MIN_X + 40, GameConfig::GAME_HEIGHT + 5);
+//		for (int i = 0; i < START_LIFE; i++)
+//			cout << "\b \b";
+//
+//		for (int i = 0; i < numLifes; i++)
+//			cout << "*";
+//	}
+//	
+//	return livesLost;
+//}
 
-	for (int i = 0; i < numLifes; i++)
-		cout << "* ";
-}
-
-void ShipsGame::run()
+bool ShipsGame::run()
 {
-	RemainingLifes(3);
-	int time = START_TIME;
+	int time = START_TIME, numLifes = START_LIFE;
 	char lastShip = ' ';
-	int keyPressed = 0, action;
-	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false ;
+	int keyPressed = 0;
+	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, possibleNextGame = false;
 
+	//RemainingLifes(&time);
 	gameTime(&time);
 
 	while (true)
@@ -62,6 +77,7 @@ void ShipsGame::run()
 			if (keyPressed == (int)GameConfig::eKeys::EXIT)
 			{
 				cout << "\nexit game tnx";
+				possibleNextGame = false;
 				break;
 			}
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
@@ -92,6 +108,11 @@ void ShipsGame::run()
 		if (!pauseMode)
 		{
 			gameTime(&time);
+			if (time == 0)
+			{
+				possibleNextGame = true;
+				break;
+			}
 
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 			{
@@ -117,7 +138,10 @@ void ShipsGame::run()
 			clrscr();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 			cout << "YOU WON!!!";
+			possibleNextGame = false;
 			break;
 		}
 	}
+
+	return possibleNextGame;
 }

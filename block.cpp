@@ -9,7 +9,7 @@
 
 bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 {
-	bool hitwall = false, needFall = false;
+	bool hitObject = false, needFall = false;
 	char boardPlace;
 	Block curr;
 
@@ -24,13 +24,13 @@ bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 	for (int i = 0; i < size; i++)
 	{
 		boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
-		if (boardPlace == 'W')
-			hitwall = true;
+		if (boardPlace == 'W'|| boardPlace == '@' || boardPlace == '#')
+			hitObject = true;
 	}
 
 	//actuall move
-	if (!hitwall)
-	{	
+	if (!hitObject)
+	{
 		for (int i = 0; i < size; i++)
 		{
 			pos[i].draw(' ', GameConfig::COLORS[0]);
@@ -73,7 +73,7 @@ bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 
-	return hitwall;
+	return hitObject;
 }
 
 
