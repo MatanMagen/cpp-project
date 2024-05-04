@@ -6,6 +6,10 @@
 #include "Block.h"
 #include <iostream>
 #include <cstring>
+#include "general.h"
+#include <conio.h>
+#include <Windows.h>
+#include "general.h"
 
 #define INFO_SIZE_HEIGHT 3
 
@@ -39,8 +43,8 @@ class Board {
 			"W                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW            W", // 19
 			"W                                                                              W", // 20
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 21
-			"W  &       The time Remaining is:                                              W", // 22
-			"W          The lifes Remaining is:                                             W", // 23
+			"W  &                                                                           W", // 22
+			"W                                                                              W", // 23
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"  // 24
 	};
 	// the actual board that will be modified
@@ -49,10 +53,21 @@ class Board {
 	Block blocks[NUM_BLOCKS];
 	Point legend_pos;
 	Point exit_pos;
+	int blockColor;
+	int shipColor;
+	int wallColor;
+	int winningColor;
 
 public:
 	void init();
 	void show();
+	void setColors(int blockColor, int shipColor, int wallColor, int winningColor)
+	{
+		this->blockColor = blockColor;
+		this->shipColor = shipColor;
+		this->wallColor = wallColor;
+		this->winningColor = winningColor;
+	}
 	char(&getBoard())[HEIGHT][WIDTH + 1]{
 		return board;
 	}

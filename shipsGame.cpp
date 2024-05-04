@@ -1,11 +1,4 @@
 #include "shipsGame.h"
-#include "ship.h"
-#include "general.h"
-#include "block.h"
-#include "board.h"
-
-#include <conio.h>
-#include <Windows.h>
 
 using namespace std;
 
@@ -17,7 +10,7 @@ void ShipsGame::freeMemory()
 void ShipsGame::gameTime(int* time)
 {
 	gotoxy(GameConfig::MIN_X + 35, GameConfig::GAME_HEIGHT + 4);
-
+	
 	if (*time < 100)
 	{
 		cout << "0";
@@ -136,7 +129,7 @@ bool ShipsGame::run()
 		if (smallShipFinish && bigShipFinish)
 		{
 			clrscr();
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[WINNING_COLOR]);
 			cout << "YOU WON!!!";
 			possibleNextGame = false;
 			break;

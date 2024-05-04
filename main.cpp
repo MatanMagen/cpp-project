@@ -1,17 +1,4 @@
-#include <conio.h> // for kbhit+getch
-#include <iostream>
-#include <Windows.h> // for Sleep and colors
-using namespace std;
-
-#include "general.h"
-#include "gameConfig.h"
-#include "point.h"
-#include "ship.h"
-#include "shipsGame.h"
-
-void runShipsGame();
-void menu();
-void RemainingLifes(int numLifes);
+#include"main.h"
 
 int main()
 {
@@ -21,7 +8,7 @@ int main()
 	gotoxy(0, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 4);
 }
 
-void runShipsGame()
+void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor)
 {
 	bool possibleNextGame = true;
 	int numLifes = START_LIFE;
@@ -31,6 +18,7 @@ void runShipsGame()
 		ShipsGame theGame;
 
 		clrscr();
+		theGame.setColors(blockColor, shipColor, wallColor, winningColor);
 		theGame.init();
 		theGame.showMenu();
 		RemainingLifes(numLifes);
@@ -44,8 +32,9 @@ void runShipsGame()
 
 void menu()
 {
-	int action = 0;
+	int action = 0, haveColor = 0;
 	Point point[GameConfig::GAME_WIDTH][GameConfig::GAME_HEIGHT];
+	int blockColor = 0, shipColor = 0, wallColor = 0, winningColor = 0;
 
 	while (action != 1 && action != 9)
 	{
@@ -56,7 +45,21 @@ void menu()
 		if (action == 1)
 		{
 			clrscr();
-			runShipsGame();
+			cout << "Please select if you want color in the game:\n"
+				"Press (1) to play with color\nPress any other key to play without color\n";
+			haveColor = _getch() - '0';
+
+			clrscr();
+			if (haveColor == 1)
+			{
+				blockColor = BLOCK_COLOR;
+				shipColor = SHIP_COLOR;
+				wallColor = WALLS_COLOR;
+				winningColor = WINNING_COLOR;
+			}
+
+			runShipsGame(blockColor, shipColor, wallColor, winningColor);
+			
 		}
 		else if (action == 8)
 		{
@@ -91,7 +94,7 @@ void RemainingLifes(int numLifes)
 	}
 	else
 	{
-		gotoxy(GameConfig::MIN_X + 40, GameConfig::GAME_HEIGHT + 5);
+		gotoxy(GameConfig::MIN_X + 38, GameConfig::GAME_HEIGHT + 5);
 		for (int i = 0; i < START_LIFE; i++)
 			cout << "\b \b";
 

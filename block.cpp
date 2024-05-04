@@ -6,7 +6,6 @@
 #include "general.h"
 #include "block.h"
 
-
 bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 {
 	bool hitObject = false, needFall = false;
@@ -44,7 +43,7 @@ bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 		for (int i = 0; i < size; i++)
 		{
 			pos[i].move(direction);
-			pos[i].draw(ch, GameConfig::COLORS[0]);
+			pos[i].draw(ch, GameConfig::COLORS[backgroundColor]);
 			board.getblock(ch).editPoint(i, pos[i]);
 		}
 
@@ -68,7 +67,6 @@ bool Block::move(GameConfig::eKeys direction, char ch, Board& board)
 		{
 			move(GameConfig::eKeys::DOWN, ch, board);
 		}
-
 	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);

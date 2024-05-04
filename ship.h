@@ -10,7 +10,11 @@ class Ship {
 	Point pos[MAX_SHIP_SIZE];
 	size_t size = 0;
 	Board* board = nullptr; // pointer to the board
+	int backgroundColor;
 public:
+	void setBackgroundColor(int backgroundColor) {
+		this->backgroundColor = backgroundColor;
+	}
 	void setBoard(Board* board) {
 		this->board = board;
 	}

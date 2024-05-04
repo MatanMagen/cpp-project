@@ -59,7 +59,7 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 				block = board.getblock(chBlock);
 				sizeBlock = block.getSize();
 				//Checking if the ship can move the brick
-				if (size == BIG_SHIP_SIZE && sizeBlock < MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock < MAX_MOVE_SMALL_SHIP)
+				if (size == BIG_SHIP_SIZE && sizeBlock <= MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock <= MAX_MOVE_SMALL_SHIP)
 					//returns the brick hit the wall
 					toStop = block.move(direction, chBlock, board);
 				else
@@ -81,7 +81,7 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 				for (int i = 0; i < size; i++)
 				{
 					pos[i].move(direction);
-					pos[i].draw(ch, GameConfig::COLORS[0]);
+					pos[i].draw(ch, GameConfig::COLORS[backgroundColor]);
 				}
 
 				for (int i = 0; i < size; i++)
