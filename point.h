@@ -2,6 +2,11 @@
 #define POINT_H
 
 #include "gameConfig.h"
+#include "general.h"
+#include <iostream>
+#include <Windows.h>
+#include <stdbool.h>
+using namespace std;
 
 class Point
 {

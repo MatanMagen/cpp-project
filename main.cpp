@@ -24,7 +24,6 @@ void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor
 		RemainingLifes(numLifes);
 		possibleNextGame = theGame.run();
 		--numLifes;
-		theGame.freeMemory();
 	}
 
 	RemainingLifes(numLifes);

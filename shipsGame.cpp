@@ -1,12 +1,5 @@
 #include "shipsGame.h"
 
-using namespace std;
-
-void ShipsGame::freeMemory()
-{
-	//delete[]allShips;
-}
-
 void ShipsGame::gameTime(int* time)
 {
 	gotoxy(GameConfig::MIN_X + 35, GameConfig::GAME_HEIGHT + 4);
@@ -22,36 +15,6 @@ void ShipsGame::gameTime(int* time)
 	(*time)--;
 }
 
-//bool ShipsGame::RemainingLifes(int* time)
-//{
-//	bool livesLost = false;
-//
-//	if (*time == 0)
-//	{
-//		numLifes--;
-//		*time = START_TIME;
-//		livesLost = true;
-//	}
-//
-//	if (numLifes == 0)
-//	{
-//		clrscr();
-//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-//		cout << "you lost the game";
-//	}
-//	else
-//	{
-//		gotoxy(GameConfig::MIN_X + 40, GameConfig::GAME_HEIGHT + 5);
-//		for (int i = 0; i < START_LIFE; i++)
-//			cout << "\b \b";
-//
-//		for (int i = 0; i < numLifes; i++)
-//			cout << "*";
-//	}
-//	
-//	return livesLost;
-//}
-
 bool ShipsGame::run()
 {
 	int time = START_TIME, numLifes = START_LIFE;
@@ -59,7 +22,6 @@ bool ShipsGame::run()
 	int keyPressed = 0;
 	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, possibleNextGame = false;
 
-	//RemainingLifes(&time);
 	gameTime(&time);
 
 	while (true)
@@ -67,7 +29,7 @@ bool ShipsGame::run()
 		if (_kbhit())
 		{
 			keyPressed = _getch();
-			if (keyPressed == (int)GameConfig::eKeys::EXIT)
+			if (pauseMode && keyPressed == (int)GameConfig::eKeys::EXIT)
 			{
 				cout << "\nexit game tnx";
 				possibleNextGame = false;

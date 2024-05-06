@@ -4,12 +4,7 @@
 #include "Point.h"
 #include "Ship.h"
 #include "Block.h"
-#include <iostream>
-#include <cstring>
-#include "general.h"
 #include <conio.h>
-#include <Windows.h>
-#include "general.h"
 
 #define INFO_SIZE_HEIGHT 3
 

@@ -58,9 +58,4 @@ void Board::show() {
 	std::cout << "The time Remaining is :";
 	gotoxy(10, 23);
 	std::cout << "The lifes Remaining is:";
-	
-	/*for (int i = 0; i < HEIGHT; i++) {
-
-		std::cout << board[i] << std::endl;
-	}*/
 }

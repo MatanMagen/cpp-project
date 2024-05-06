@@ -12,7 +12,7 @@ using namespace std;
 #include "ship.h"
 #include "shipsGame.h"
 
-void runShipsGame();
+void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor);
 void menu();
 void RemainingLifes(int numLifes);
 

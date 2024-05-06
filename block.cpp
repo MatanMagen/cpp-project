@@ -1,8 +1,5 @@
 #include "ship.h"
 #include "board.h"
-#include <conio.h>
-#include <Windows.h>
-#include "shipsGame.h"
 #include "general.h"
 #include "block.h"
 

@@ -1,11 +1,4 @@
 #include "point.h"
-#include "gameConfig.h"
-#include "general.h"
-
-#include <iostream>
-#include <Windows.h>
-#include <stdbool.h>
-using namespace std;
 
 void Point::init(int x, int y)
 {

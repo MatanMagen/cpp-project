@@ -1,11 +1,6 @@
 #include "ship.h"
 #include "board.h"
-#include <conio.h>
-#include <Windows.h>
-#include "shipsGame.h"
-#include "general.h"
 #include "block.h"
-#include "board.h"
 
 //function move the ship and return if ship finshed the game 
 bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
@@ -46,9 +41,7 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 				return true;
 			}
 			else if ((ch != '#' && boardPlace == '#') || (ch != '@' && boardPlace == '@')) //both of them in the same place
-			{
 				hitOtherPlayer = true;
-			}
 		}
 
 		//actuall move
