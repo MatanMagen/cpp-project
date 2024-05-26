@@ -5,7 +5,7 @@ int main()
 	menu();
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	gotoxy(0, GameConfig::GAME_HEIGHT + GameConfig::MIN_Y + 4);
+	gotoxy(0, GameConfig::GAME_HEIGHT + 4);
 }
 
 void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor)
@@ -33,7 +33,7 @@ void menu()
 {
 	int action = 0, haveColor = 0;
 	Point point[GameConfig::GAME_WIDTH][GameConfig::GAME_HEIGHT];
-	int blockColor = 0, shipColor = 0, wallColor = 0, winningColor = 0;
+	int blockColor = 15, shipColor = 15, wallColor = 15, winningColor = 15;
 
 	while (action != 1 && action != 9)
 	{
@@ -41,9 +41,9 @@ void menu()
 		cout << "(1) Start a new game\n(8) Present instructions and keys\n(9) EXIT\n";
 		action = _getch() - '0';
 
+		clrscr();
 		if (action == 1)
 		{
-			clrscr();
 			cout << "Please select if you want color in the game:\n"
 				"Press (1) to play with color\nPress any other key to play without color\n";
 			haveColor = _getch() - '0';
@@ -51,14 +51,14 @@ void menu()
 			clrscr();
 			if (haveColor == 1)
 			{
-				blockColor = BLOCK_COLOR;
-				shipColor = SHIP_COLOR;
-				wallColor = WALLS_COLOR;
-				winningColor = WINNING_COLOR;
+				blockColor = 15;
+				shipColor = 15;
+				wallColor = 15;
+				winningColor = 15;
 			}
 
 			runShipsGame(blockColor, shipColor, wallColor, winningColor);
-			
+
 		}
 		else if (action == 8)
 		{
@@ -88,12 +88,11 @@ void RemainingLifes(int numLifes)
 	if (numLifes == 0)
 	{
 		clrscr();
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 		cout << "you lost the game";
 	}
 	else
 	{
-		gotoxy(GameConfig::MIN_X + 38, GameConfig::GAME_HEIGHT + 5);
+		gotoxy(38, GameConfig::GAME_HEIGHT + 5);
 		for (int i = 0; i < START_LIFE; i++)
 			cout << "\b \b";
 

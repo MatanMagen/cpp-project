@@ -1,6 +1,10 @@
 #ifndef __GAME_CONFIG_H
 #define __GAME_CONFIG_H
 
+#define BLOCK_COLOR 85
+#define SHIP_COLOR 204
+#define WALLS_COLOR 153
+#define WINNING_COLOR 228
 #define START_TIME 250
 #define START_LIFE 3
 #define NUM_BLOCKS 3
@@ -8,10 +12,6 @@
 #define SMALL_SHIP_SIZE 2
 #define MAX_MOVE_BIG_SHIP 6
 #define MAX_MOVE_SMALL_SHIP 2
-#define BLOCK_COLOR 9604
-#define SHIP_COLOR 6871
-#define WALLS_COLOR 1509
-#define WINNING_COLOR 6961
 
 class GameConfig
 {

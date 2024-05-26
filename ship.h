@@ -5,6 +5,10 @@
 
 class Board;
 
+#define SHIP_FINISH 0
+#define SHIP_DIED 1
+#define SHIP_CAN_PLAY 2
+
 class Ship {
 	constexpr static size_t MAX_SHIP_SIZE = 4;
 	Point pos[MAX_SHIP_SIZE];
@@ -27,7 +31,7 @@ public:
 	Point getPos(size_t i) const {
 		return pos[i];
 	}
-	bool move(GameConfig::eKeys direction, char ch, Board& board);
+	int move(GameConfig::eKeys direction, char ch, Board& board);
 };
 
 #endif

@@ -9,16 +9,16 @@ void Board::init() {
 			}
 			else if (board[i][j] == '@') {
 				ships[0].addPoint(j, i);
-				ships[0].setBackgroundColor(shipColor);
+				//ships[0].setBackgroundColor(shipColor);
 			}
 			else if (board[i][j] == '#') {
 				ships[1].addPoint(j, i);
-				ships[1].setBackgroundColor(shipColor);
+				//ships[1].setBackgroundColor(shipColor);
 			}
 			else if (board[i][j] >= 'a' && board[i][j] <= 'c') {
 				size_t block_index = board[i][j] - 'a';
 				blocks[block_index].addPoint(j, i);
-				blocks[block_index].setBackgroundColor(blockColor);
+				//blocks[block_index].setBackgroundColor(blockColor);
 			}
 			else if (board[i][j] == 'X') {
 				exit_pos.set(j, i);
@@ -29,36 +29,33 @@ void Board::init() {
 
 void Board::show() {
 	int color = 0;
-	//for (int i = 0; i < 10000; i++) {
-	//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[i]);
-	//	std::cout << i << " 5";
-	//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	//}
 
 	for (int i = 0; i < HEIGHT; i++) {
-		for (int j = 0; j < WIDTH; j++) {
-			if (board[i][j] == '@' || board[i][j] == '#')
-				color = shipColor;
-			else if (board[i][j] >= 'a' && board[i][j] <= 'c')
-				color = blockColor;
-			else if (board[i][j] == 'X')
-				color = winningColor;
-			else if (board[i][j] == 'W')
-				color = wallColor;
-			else
-				color = 0;
-			
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[color]);
-			std::cout << board[i][j];
-				//<< std::endl;
-		}
-
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-		std::cout << "\n";
+		std::cout << board[i] << std::endl;
 	}
 
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	
+	//for (int i = 0; i < HEIGHT; i++) {
+	//	for (int j = 0; j < WIDTH; j++) {
+	//		if (board[i][j] == '@' || board[i][j] == '#')
+	//			color = shipColor;
+	//		else if (board[i][j] >= 'a' && board[i][j] <= 'c')
+	//			color = blockColor;
+	//		else if (board[i][j] == 'X')
+	//			color = winningColor;
+	//		else if (board[i][j] == 'W')
+	//			color = wallColor;
+	//		else
+	//			color = GameConfig::COLORS[0];
+	//		
+	//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+	//		std::cout << board[i][j];
+	//		//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), NO_COLOR);
+	//	}
+
+	//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+	//	std::cout << "\n";
+	//}
+
 	gotoxy(10, 22);
 	std::cout << "The time Remaining is :";
 	gotoxy(10, 23);

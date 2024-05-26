@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "Ship.h"
 #include "Block.h"
+#include "gameConfig.h"
 #include <conio.h>
 
 #define INFO_SIZE_HEIGHT 3
@@ -19,8 +20,8 @@ class Board {
 			"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 0
 			"W ## W @@        b                                                             W", // 1
 			"W ## W           W   W                                                         W", // 2
-			"W    W           WWWWW                                                         W", // 3
-			"W    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW   WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 4
+			"W    W           W   W                                                         W", // 3
+			"W    WWWWWWWWWWWWW   WWWWWWWWWWWWWWWW   WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", // 4
 			"W                                                                              W", // 5
 			"W                                                                              W", // 6
 			"W                                                                              W", // 7

@@ -17,7 +17,7 @@ class Point
 
 public:
 	void init(int x, int y);
-	void draw(char ch, int backcolor);
+	void draw(char ch, int backgroundColor);
 	void move(GameConfig::eKeys key);
 	void set(int x1, int y1) {
 		x = x1;

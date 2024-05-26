@@ -8,11 +8,12 @@ void Point::init(int x, int y)
 	diff_y = 0;
 }
 
-void Point::draw(char ch, int backcolor)
+void Point::draw(char ch, int backgroundColor)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), backcolor);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 	gotoxy(x, y);
 	cout << ch;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 }
 
 void Point::move(GameConfig::eKeys key)

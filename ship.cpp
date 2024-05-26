@@ -3,15 +3,35 @@
 #include "block.h"
 
 //function move the ship and return if ship finshed the game 
-bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
+int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 {
-	bool hitwall = false, hitBlock = false, toStop = false, hitOtherPlayer = false;
-	int sizeBlock;
+	bool hitwall = false, hitBlock = false, toStop = false, hitOtherPlayer = false, carryingBrick = false;
+	int sizeBlock, xBlock, yBlock;
 	char boardPlace, chBlock;
 	Block block;
 
 	if (direction != GameConfig::eKeys::PAUSE)
 	{
+		//check if carrying a brick
+		for (int i = 0; i < size; i++)
+		{
+			int x = pos[i].getX();
+			int y = pos[i].getY();
+			if (board.getBoard()[y - 1][x] >= 'a' && board.getBoard()[y - 1][x] <= 'c')
+			{
+				xBlock = x;
+				yBlock = y;
+				chBlock = board.getBoard()[y - 1][x];
+				block = board.getblock(chBlock);
+				sizeBlock = block.getSize();
+
+				if (size == BIG_SHIP_SIZE && sizeBlock <= MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock <= MAX_MOVE_SMALL_SHIP) 
+					carryingBrick = true;
+				else
+					return SHIP_DIED;
+			}
+		}
+
 		//check if wall or blocks or finish point infront
 		Point temp[4];
 		for (int i = 0; i < size; i++)
@@ -34,11 +54,11 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 			{
 				for (int i = 0; i < size; i++)
 				{
-					pos[i].draw(' ', GameConfig::COLORS[0]);
+					pos[i].draw(' ', 15);
 					board.getBoard()[pos[i].getY()][pos[i].getX()] = ' ';
 				}
 
-				return true;
+				return SHIP_FINISH;
 			}
 			else if ((ch != '#' && boardPlace == '#') || (ch != '@' && boardPlace == '@')) //both of them in the same place
 				hitOtherPlayer = true;
@@ -47,16 +67,28 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 		//actuall move
 		if (!hitwall && !hitOtherPlayer)
 		{
-			if (hitBlock)
+			if (hitBlock || carryingBrick)
 			{
-				block = board.getblock(chBlock);
-				sizeBlock = block.getSize();
-				//Checking if the ship can move the brick
-				if (size == BIG_SHIP_SIZE && sizeBlock <= MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock <= MAX_MOVE_SMALL_SHIP)
-					//returns the brick hit the wall
-					toStop = block.move(direction, chBlock, board);
-				else
-					toStop = true;
+				if (!(carryingBrick && (direction == GameConfig::eKeys::LOWER_DOWN || direction == GameConfig::eKeys::DOWN)))
+				{
+					block = board.getblock(chBlock);
+					sizeBlock = block.getSize();
+					//Checking if the ship can move the brick
+					if (size == BIG_SHIP_SIZE && sizeBlock <= MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock <= MAX_MOVE_SMALL_SHIP) {
+						if (block.move(direction, chBlock, board, carryingBrick))
+						{
+							if (block.isKilledShip(ch, board))
+								return SHIP_DIED;
+
+							for (int i = 0; i < size; i++)
+							{
+								boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
+								if (boardPlace == 'W' || (boardPlace >= 'a' && boardPlace <= 'c') || (ch != '#' && boardPlace == '#') || (ch != '@' && boardPlace == '@'))
+									toStop = true;
+							}
+						}
+					}
+				}
 			}
 
 			if (!toStop)
@@ -74,17 +106,28 @@ bool Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 				for (int i = 0; i < size; i++)
 				{
 					pos[i].move(direction);
-					pos[i].draw(ch, GameConfig::COLORS[backgroundColor]);
+					pos[i].draw(ch, GameConfig::COLORS[0]);
 				}
 
 				for (int i = 0; i < size; i++)
 				{
 					board.getBoard()[pos[i].getY()][pos[i].getX()] = ch;
 				}
+
+				if (carryingBrick)
+				{
+					block = board.getblock(chBlock);
+					sizeBlock = block.getSize();
+
+					if(block.toFall(direction, chBlock, board, carryingBrick))
+						toStop = block.move(GameConfig::eKeys::DOWN, chBlock, board, !carryingBrick);
+					
+					if(direction == GameConfig::eKeys::LOWER_DOWN || direction == GameConfig::eKeys::DOWN)
+						toStop = block.move(direction, chBlock, board, carryingBrick);
+				}
 			}
 		}
 	}
 
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	return false;
+	return SHIP_CAN_PLAY;
 }
