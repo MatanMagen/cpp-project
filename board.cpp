@@ -1,6 +1,26 @@
 #include "board.h"
+#include <fstream>
+
+void Board::readMap() {
+	ifstream file("map.txt");
+
+	if (!file.is_open()) {
+		cerr << "Error opening file: " << "map.txt" << endl;
+		return;
+	}
+
+	for (int i = 0; i < HEIGHT; ++i) {
+		if (!file.getline(original_board[i], WIDTH + 1)) {
+			cerr << "Error reading from file: " << "map.txt" << endl;
+			return;
+		}
+	}
+
+	file.close();
+}
 
 void Board::init() {
+	readMap();
 	std::memcpy(board, original_board, sizeof(original_board));
 	for (int i = 0; i < HEIGHT - INFO_SIZE_HEIGHT; i++) {
 		for (int j = 0; j < WIDTH; j++) {

@@ -1,7 +1,15 @@
 #include"main.h"
+//#include <direct.h> // For Windows
 
 int main()
 {
+	//char buffer[MAX_PATH];
+	//if (_getcwd(buffer, sizeof(buffer)) != nullptr) {
+	//	std::cout << "Current working directory: " << buffer << std::endl;
+	//}
+	//else {
+	//	std::cerr << "Error getting current working directory!" << std::endl;
+	//}
 	menu();
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
