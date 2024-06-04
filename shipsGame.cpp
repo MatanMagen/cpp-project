@@ -1,4 +1,5 @@
 #include "shipsGame.h"
+#include <fstream>
 
 void ShipsGame::gameInfo(int* time, char ship, int numLifes)
 {
@@ -38,7 +39,10 @@ int ShipsGame::run(int numLifes)
 	int time = START_TIME, shipStatus = SHIP_CAN_PLAY;
 	char lastShip = 'b';
 	int keyPressed = 0, possibleNextGame = GAME_WON;
-	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false;
+	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, createrecording = true;
+	
+
+	ofstream recording("recording.txt");
 
 	gameInfo(&time, lastShip, numLifes);
 
@@ -47,8 +51,16 @@ int ShipsGame::run(int numLifes)
 		if (_kbhit())
 		{
 			keyPressed = _getch();
+
 			if (pauseMode && keyPressed == (int)GameConfig::eKeys::EXIT)
 			{
+				if (createrecording)
+				{
+					gameInfo(&time, lastShip, numLifes);
+					recording << time << " EXIT" << endl;
+					recording.flush();
+				}
+
 				cout << "\nexit game tnx";
 				possibleNextGame = GAME_STOPED;
 				break;
@@ -67,6 +79,11 @@ int ShipsGame::run(int numLifes)
 					pauseMode = false;
 					board.show();
 				}
+				if (createrecording)
+				{
+					gameInfo(&time, lastShip, numLifes);
+					recording << time << " ESC" << endl;
+				}
 
 			}
 			if (keyPressed == (int)GameConfig::eKeys::SWAP_BIG_LOWER || keyPressed == (int)GameConfig::eKeys::SWAP_BIG)
@@ -75,6 +92,13 @@ int ShipsGame::run(int numLifes)
 					lastShip = 'b';
 				else
 					lastShip = ' ';
+
+				if (createrecording)
+				{
+					gameInfo(&time, lastShip, numLifes);
+					recording << time << " SWAP_BIG" << endl;
+					recording.flush();
+				}
 			}
 
 			if (keyPressed == (int)GameConfig::eKeys::SWAP_SMALL_LOWER || keyPressed == (int)GameConfig::eKeys::SWAP_SMALL)
@@ -83,6 +107,13 @@ int ShipsGame::run(int numLifes)
 					lastShip = 's';
 				else
 					lastShip = ' ';
+
+				if (createrecording)
+				{
+					gameInfo(&time, lastShip, numLifes);
+					recording << time << " SWAP_SMALL" << endl;
+					recording.flush();
+				}
 			}
 		}
 
@@ -91,7 +122,7 @@ int ShipsGame::run(int numLifes)
 		if (!pauseMode)
 		{
 			gameInfo(&time, lastShip, numLifes);
-			if (time == 0)
+			if (time <= 0)
 			{
 				possibleNextGame = GAME_LOST;
 				break;
@@ -108,8 +139,15 @@ int ShipsGame::run(int numLifes)
 				if (keyPressed != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPressed != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
 					&& keyPressed != (int)GameConfig::eKeys::SWAP_BIG && keyPressed != (int)GameConfig::eKeys::SWAP_SMALL && keyPressed != 0)
 				{
-					if (lastShip == 'b' && !bigShipFinish)
+					if (createrecording)
 					{
+						gameInfo(&time, lastShip, numLifes);
+						recording << time << " " << char(keyPressed) << endl;
+						recording.flush();
+					}
+
+					if (lastShip == 'b' && !bigShipFinish)
+					{						
 						shipStatus = board.getships(1).move((GameConfig::eKeys)keyPressed, board);
 						if (shipStatus == SHIP_FINISH)
 						{
@@ -146,6 +184,6 @@ int ShipsGame::run(int numLifes)
 			break;
 		}
 	}
-
+	recording.close();
 	return possibleNextGame;
 }
