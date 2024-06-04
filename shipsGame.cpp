@@ -1,8 +1,10 @@
 #include "shipsGame.h"
 
-void ShipsGame::gameInfo(int* time, char ship)
+void ShipsGame::gameInfo(int* time, char ship, int numLifes)
 {
-	gotoxy(35, GameConfig::GAME_HEIGHT + 4);
+	Point legend_pos = board.getLegend();
+
+	gotoxy(legend_pos.getX() + 27, legend_pos.getY());
 
 	if (*time < 100)
 	{
@@ -14,7 +16,14 @@ void ShipsGame::gameInfo(int* time, char ship)
 	cout << *time;
 	(*time)--;
 
-	gotoxy(65, 22);
+	gotoxy(legend_pos.getX() + 30, legend_pos.getY() + 1);
+	for (int i = 0; i < START_LIFE; i++)
+		cout << "\b \b";
+
+	for (int i = 0; i < numLifes; i++)
+		cout << "*";
+
+	gotoxy(legend_pos.getX() + 27, legend_pos.getY() + 2);
 
 	if (ship == 'b')
 		cout << "big ship  ";
@@ -24,14 +33,14 @@ void ShipsGame::gameInfo(int* time, char ship)
 		cout << "          ";
 }
 
-bool ShipsGame::run()
+int ShipsGame::run(int numLifes)
 {
-	int time = START_TIME, numLifes = START_LIFE, shipStatus = SHIP_CAN_PLAY;
+	int time = START_TIME, shipStatus = SHIP_CAN_PLAY;
 	char lastShip = 'b';
-	int keyPressed = 0;
-	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, possibleNextGame = false;
+	int keyPressed = 0, possibleNextGame = GAME_WON;
+	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false;
 
-	gameInfo(&time, lastShip);
+	gameInfo(&time, lastShip, numLifes);
 
 	while (true)
 	{
@@ -41,7 +50,7 @@ bool ShipsGame::run()
 			if (pauseMode && keyPressed == (int)GameConfig::eKeys::EXIT)
 			{
 				cout << "\nexit game tnx";
-				possibleNextGame = false;
+				possibleNextGame = GAME_STOPED;
 				break;
 			}
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
@@ -81,17 +90,17 @@ bool ShipsGame::run()
 
 		if (!pauseMode)
 		{
-			gameInfo(&time, lastShip);
+			gameInfo(&time, lastShip, numLifes);
 			if (time == 0)
 			{
-				possibleNextGame = true;
+				possibleNextGame = GAME_LOST;
 				break;
 			}
 
 			if (keyPressed == (int)GameConfig::eKeys::ESC)
 			{
-				shipStatus = board.getships(0).move(GameConfig::eKeys::PAUSE, '@', board);
-				shipStatus = board.getships(1).move(GameConfig::eKeys::PAUSE, '#', board);
+				shipStatus = board.getships(0).move(GameConfig::eKeys::PAUSE, board);
+				shipStatus = board.getships(1).move(GameConfig::eKeys::PAUSE, board);
 				keyPressed = 0;
 			}
 			else
@@ -101,7 +110,7 @@ bool ShipsGame::run()
 				{
 					if (lastShip == 'b' && !bigShipFinish)
 					{
-						shipStatus = board.getships(1).move((GameConfig::eKeys)keyPressed, '#', board);
+						shipStatus = board.getships(1).move((GameConfig::eKeys)keyPressed, board);
 						if (shipStatus == SHIP_FINISH)
 						{
 							bigShipFinish = true;
@@ -110,7 +119,7 @@ bool ShipsGame::run()
 					}
 					if (lastShip == 's' && !smallShipFinish)
 					{
-						shipStatus = board.getships(0).move((GameConfig::eKeys)keyPressed, '@', board);
+						shipStatus = board.getships(0).move((GameConfig::eKeys)keyPressed, board);
 						if (shipStatus == SHIP_FINISH)
 						{
 							smallShipFinish = true;
@@ -123,7 +132,7 @@ bool ShipsGame::run()
 
 		if (shipStatus == SHIP_DIED)
 		{
-			possibleNextGame = true;
+			possibleNextGame = GAME_LOST;
 			break;
 		}
 		
@@ -131,8 +140,9 @@ bool ShipsGame::run()
 		{
 			clrscr();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-			cout << "YOU WON!!!";
-			possibleNextGame = false;
+			cout << "You have completed the stage";
+			Sleep(500);
+			possibleNextGame = GAME_WON;
 			break;
 		}
 	}

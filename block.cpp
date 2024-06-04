@@ -3,14 +3,26 @@
 #include "general.h"
 #include "block.h"
 
-bool Block::move(GameConfig::eKeys direction, char ch, Board& board, bool isCarried)
+bool Block::move(GameConfig::eKeys direction, char ch, Board& board, bool isCarried, int maxMove)
 {
-	bool hitObject = false, needFall = false;
-	char boardPlace;
-	Block curr;
+	bool hitObject = false, needFall = false, hitBlock = false;
+	char boardPlace, chBlock, whichBlockHit;
+	Block curr, next;
+	int sizeNext;
 
 	//check if not wall infront
-	hitObject = ishitObject(direction, ch, board);
+	hitObject = ishitObject(direction, ch, board, &hitBlock, &whichBlockHit);
+
+	if (hitBlock)
+	{
+		next = board.getblock(whichBlockHit);
+		sizeNext = next.getSize();
+		if(maxMove - sizeNext >= 0)
+			next.move(direction, whichBlockHit, board, isCarried, maxMove - sizeNext);
+		else
+			return hitBlock;
+	}
+	
 
 	//actuall move
 	if (!hitObject)
@@ -42,14 +54,14 @@ bool Block::move(GameConfig::eKeys direction, char ch, Board& board, bool isCarr
 
 		if (needFall)
 		{
-			hitObject = move(GameConfig::eKeys::DOWN, ch, board, isCarried);
+			hitObject = move(GameConfig::eKeys::DOWN, ch, board, isCarried, maxMove);
 		}
 	}
 
 	return hitObject;
 }
 
-bool Block::ishitObject(GameConfig::eKeys direction, char ch, Board& board)
+bool Block::ishitObject(GameConfig::eKeys direction, char ch, Board& board, bool *hitBlock, char* whichBlockHit)
 {
 	bool hitObject = false;
 	char boardPlace;
@@ -67,6 +79,11 @@ bool Block::ishitObject(GameConfig::eKeys direction, char ch, Board& board)
 		boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
 		if (boardPlace == 'W' || boardPlace == '@' || boardPlace == '#')
 			hitObject = true;
+		if (boardPlace >= 'a' && boardPlace <= 'c' && boardPlace != ch)
+		{
+			*hitBlock = true;
+			*whichBlockHit = boardPlace;
+		}
 	}
 
 	return hitObject;
@@ -74,8 +91,10 @@ bool Block::ishitObject(GameConfig::eKeys direction, char ch, Board& board)
 
 bool Block::toFall(GameConfig::eKeys direction, char ch, Board& board, bool isCarried)
 {
-	bool hitObject = ishitObject(direction, ch, board);
-	bool needFall = false;
+	char whichBlockHit;
+	bool needFall = false, hitBlock = false;
+	bool hitObject = ishitObject(direction, ch, board, &hitBlock, &whichBlockHit);
+	
 	if (isCarried)
 	{
 		if (direction == GameConfig::eKeys::LOWER_LEFT || direction == GameConfig::eKeys::LOWER_RIGHT || direction == GameConfig::eKeys::RIGHT || direction == GameConfig::eKeys::LEFT)

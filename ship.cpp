@@ -3,13 +3,13 @@
 #include "block.h"
 
 //function move the ship and return if ship finshed the game 
-int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
+int Ship::move(GameConfig::eKeys direction, Board& board)
 {
 	bool hitwall = false, hitBlock = false, toStop = false, hitOtherPlayer = false, carryingBrick = false;
 	int sizeBlock, xBlock, yBlock;
 	char boardPlace, chBlock;
 	Block block;
-
+	
 	if (direction != GameConfig::eKeys::PAUSE)
 	{
 		//check if carrying a brick
@@ -25,7 +25,7 @@ int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 				block = board.getblock(chBlock);
 				sizeBlock = block.getSize();
 
-				if (size == BIG_SHIP_SIZE && sizeBlock <= MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock <= MAX_MOVE_SMALL_SHIP) 
+				if (sizeBlock <= maxMove) 
 					carryingBrick = true;
 				else
 					return SHIP_DIED;
@@ -60,7 +60,7 @@ int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 
 				return SHIP_FINISH;
 			}
-			else if ((ch != '#' && boardPlace == '#') || (ch != '@' && boardPlace == '@')) //both of them in the same place
+			else if ((shipType != '#' && boardPlace == '#') || (shipType != '@' && boardPlace == '@')) //both of them in the same place
 				hitOtherPlayer = true;
 		}
 
@@ -74,16 +74,16 @@ int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 					block = board.getblock(chBlock);
 					sizeBlock = block.getSize();
 					//Checking if the ship can move the brick
-					if (size == BIG_SHIP_SIZE && sizeBlock <= MAX_MOVE_BIG_SHIP || size == SMALL_SHIP_SIZE && sizeBlock <= MAX_MOVE_SMALL_SHIP) {
-						if (block.move(direction, chBlock, board, carryingBrick))
+					if (sizeBlock <= maxMove) {
+						if (block.move(direction, chBlock, board, carryingBrick, maxMove - sizeBlock))
 						{
-							if (block.isKilledShip(ch, board))
+							if (block.isKilledShip(shipType, board))
 								return SHIP_DIED;
 
 							for (int i = 0; i < size; i++)
 							{
 								boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
-								if (boardPlace == 'W' || (boardPlace >= 'a' && boardPlace <= 'c') || (ch != '#' && boardPlace == '#') || (ch != '@' && boardPlace == '@'))
+								if (boardPlace == 'W' || (boardPlace >= 'a' && boardPlace <= 'c') || (shipType != '#' && boardPlace == '#') || (shipType != '@' && boardPlace == '@'))
 									toStop = true;
 							}
 						}
@@ -106,12 +106,12 @@ int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 				for (int i = 0; i < size; i++)
 				{
 					pos[i].move(direction);
-					pos[i].draw(ch, GameConfig::COLORS[0]);
+					pos[i].draw(shipType, GameConfig::COLORS[0]);
 				}
 
 				for (int i = 0; i < size; i++)
 				{
-					board.getBoard()[pos[i].getY()][pos[i].getX()] = ch;
+					board.getBoard()[pos[i].getY()][pos[i].getX()] = shipType;
 				}
 
 				if (carryingBrick)
@@ -120,10 +120,10 @@ int Ship::move(GameConfig::eKeys direction, char ch, Board& board)
 					sizeBlock = block.getSize();
 
 					if(block.toFall(direction, chBlock, board, carryingBrick))
-						toStop = block.move(GameConfig::eKeys::DOWN, chBlock, board, !carryingBrick);
+						toStop = block.move(GameConfig::eKeys::DOWN, chBlock, board, !carryingBrick, maxMove - sizeBlock);
 					
 					if(direction == GameConfig::eKeys::LOWER_DOWN || direction == GameConfig::eKeys::DOWN)
-						toStop = block.move(direction, chBlock, board, carryingBrick);
+						toStop = block.move(direction, chBlock, board, carryingBrick, maxMove - sizeBlock);
 				}
 			}
 		}

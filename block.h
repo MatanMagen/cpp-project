@@ -32,8 +32,8 @@ public:
 	void editPoint(int i, Point newPos) {
 		pos[i] = newPos;
 	}
-	bool move(GameConfig::eKeys direction, char ch, Board& board, bool isCarried);
-	bool ishitObject(GameConfig::eKeys direction, char ch, Board& board);
+	bool move(GameConfig::eKeys direction, char ch, Board& board, bool isCarried, int maxMove);
+	bool ishitObject(GameConfig::eKeys direction, char ch, Board& board, bool* hitBlock, char* whichBlockHit);
 	bool toFall(GameConfig::eKeys direction, char ch, Board& board, bool isCarried);
 	bool isKilledShip(char ch, Board& board);
 };

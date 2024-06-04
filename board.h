@@ -57,8 +57,8 @@ class Board {
 	int winningColor;
 
 public:
-	void readMap();
-	void init();
+	bool readMap(std::string fileName);
+	void init(std::string fileName);
 	void show();
 	void setColors(int blockColor, int shipColor, int wallColor, int winningColor)
 	{
@@ -70,11 +70,14 @@ public:
 	char(&getBoard())[HEIGHT][WIDTH + 1]{
 		return board;
 	}
-		Ship& getships(int i) {
-		return ships[i];
+	Ship& getships(int i) {
+	return ships[i];
 	}
 	Block& getblock(char ch) {
 		return blocks[ch - 'a'];
+	}
+	Point& getLegend() {
+		return  legend_pos;
 	}
 };
 

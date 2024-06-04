@@ -1,38 +1,46 @@
 #include "board.h"
 #include <fstream>
 
-void Board::readMap() {
-	ifstream file("map.txt");
+bool Board::readMap(std::string fileName) {
+	//"map.txt"
+	bool opend = true;
+	ifstream file(fileName);
 
 	if (!file.is_open()) {
-		cerr << "Error opening file: " << "map.txt" << endl;
-		return;
+		cerr << "Error opening file: " << fileName << endl;
+		return false;
 	}
 
 	for (int i = 0; i < HEIGHT; ++i) {
 		if (!file.getline(original_board[i], WIDTH + 1)) {
-			cerr << "Error reading from file: " << "map.txt" << endl;
-			return;
+			cerr << "Error reading from file: " << fileName << endl;
+			return false;
 		}
 	}
 
 	file.close();
+	return opend;
 }
 
-void Board::init() {
-	readMap();
+void Board::init(std::string fileName) {
+	if (!readMap(fileName))
+		return;
 	std::memcpy(board, original_board, sizeof(original_board));
-	for (int i = 0; i < HEIGHT - INFO_SIZE_HEIGHT; i++) {
+	for (int i = 0; i < HEIGHT ; i++) {
 		for (int j = 0; j < WIDTH; j++) {
 			if (board[i][j] == '&') {
 				legend_pos.set(j, i);
 			}
 			else if (board[i][j] == '@') {
 				ships[0].addPoint(j, i);
+				ships[0].setShipType('@');
+				ships[0].setMaxMove(MAX_MOVE_SMALL_SHIP);
 				//ships[0].setBackgroundColor(shipColor);
 			}
 			else if (board[i][j] == '#') {
 				ships[1].addPoint(j, i);
+				ships[1].setShipType('#');
+				ships[1].setMaxMove(MAX_MOVE_BIG_SHIP);
 				//ships[1].setBackgroundColor(shipColor);
 			}
 			else if (board[i][j] >= 'a' && board[i][j] <= 'c') {
@@ -76,10 +84,10 @@ void Board::show() {
 	//	std::cout << "\n";
 	//}
 
-	gotoxy(10, 22);
-	std::cout << "The time Remaining is :";
-	gotoxy(10, 23);
+	gotoxy(legend_pos.getX() + 2, legend_pos.getY());
+	std::cout << "The time Remaining is:";
+	gotoxy(legend_pos.getX() + 2, legend_pos.getY() + 1);
 	std::cout << "The lifes Remaining is:";
-	gotoxy(45, 22);
+	gotoxy(legend_pos.getX() + 2, legend_pos.getY() + 2);
 	std::cout << "The Active ship is:";
 }

@@ -15,12 +15,21 @@ class Ship {
 	size_t size = 0;
 	Board* board = nullptr; // pointer to the board
 	int backgroundColor;
+	char shipType;
+	int maxMove;
+
 public:
 	void setBackgroundColor(int backgroundColor) {
 		this->backgroundColor = backgroundColor;
 	}
 	void setBoard(Board* board) {
 		this->board = board;
+	}
+	void setShipType(char ch) {
+		this->shipType = ch;
+	}
+	void setMaxMove(int i) {
+		this->maxMove = i;
 	}
 	void addPoint(int x, int y) {
 		pos[size++].set(x, y);
@@ -31,7 +40,7 @@ public:
 	Point getPos(size_t i) const {
 		return pos[i];
 	}
-	int move(GameConfig::eKeys direction, char ch, Board& board);
+	int move(GameConfig::eKeys direction, Board& board);
 };
 
 #endif

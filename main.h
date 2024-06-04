@@ -12,8 +12,8 @@ using namespace std;
 #include "ship.h"
 #include "shipsGame.h"
 
-void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor);
+void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string fileName);
+void runSpecificGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string fileName);
 void menu();
-void RemainingLifes(int numLifes);
 
 #endif

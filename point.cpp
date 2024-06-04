@@ -55,13 +55,13 @@ void Point::move(GameConfig::eKeys key)
 	}
 
 	x += diff_x;
-	if (x > GameConfig::GAME_WIDTH)
-		x = 1;
+	if (x >= GameConfig::GAME_WIDTH)
+		x = 0;
 	else if (x == -1)
-		x = GameConfig::GAME_WIDTH;
+		x = GameConfig::GAME_WIDTH - 1;
 
 	y += diff_y;
-	if (y > GameConfig::GAME_HEIGHT + 3)
+	if (y >= GameConfig::GAME_HEIGHT + 3)
 		y = 1;
 	else if (y == -1)
 		y = GameConfig::GAME_HEIGHT + 2;
