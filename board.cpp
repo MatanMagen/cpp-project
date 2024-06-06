@@ -2,7 +2,6 @@
 #include <fstream>
 
 bool Board::readMap(std::string fileName) {
-	//"map.txt"
 	bool opend = true;
 	ifstream file(fileName);
 
@@ -17,6 +16,12 @@ bool Board::readMap(std::string fileName) {
 			return false;
 		}
 	}
+
+	if (!file.getline(time,4)) {
+		cerr << "Error reading from file: " << fileName << endl;
+		return false;
+	}
+
 
 	file.close();
 	return opend;

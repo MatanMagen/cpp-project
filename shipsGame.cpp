@@ -36,7 +36,7 @@ void ShipsGame::gameInfo(int* time, char ship, int numLifes)
 
 int ShipsGame::run(int numLifes)
 {
-	int time = START_TIME, shipStatus = SHIP_CAN_PLAY;
+	int time = board.getTime(), shipStatus = SHIP_CAN_PLAY;
 	char lastShip = 'b';
 	int keyPressed = 0, possibleNextGame = GAME_WON;
 	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, createrecording = true;
