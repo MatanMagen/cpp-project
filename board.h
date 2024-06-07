@@ -15,7 +15,7 @@ class Board {
 	constexpr static size_t NUM_SHIPS = 2;
 	constexpr static size_t NUMBLOCKS = 1;
 	// the original board that will be copied to the actual board
-	char original_board[HEIGHT][WIDTH + 1]; 
+	char original_board[HEIGHT][WIDTH + 1];
 
 	// the actual board that will be modified
 	char board[HEIGHT][WIDTH + 1];
@@ -48,7 +48,7 @@ public:
 		return std::stoi(time);
 	}
 	Ship& getships(int i) {
-	return ships[i];
+		return ships[i];
 	}
 	Block& getblock(char ch) {
 		return blocks[ch - 'a'];

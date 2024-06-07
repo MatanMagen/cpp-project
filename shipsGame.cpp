@@ -40,7 +40,6 @@ int ShipsGame::run(int numLifes)
 	char lastShip = 'b';
 	int keyPressed = 0, possibleNextGame = GAME_WON;
 	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, createrecording = true;
-	
 
 	ofstream recording("recording.txt");
 
@@ -147,7 +146,7 @@ int ShipsGame::run(int numLifes)
 					}
 
 					if (lastShip == 'b' && !bigShipFinish)
-					{						
+					{
 						shipStatus = board.getships(1).move((GameConfig::eKeys)keyPressed, board);
 						if (shipStatus == SHIP_FINISH)
 						{
@@ -173,7 +172,7 @@ int ShipsGame::run(int numLifes)
 			possibleNextGame = GAME_LOST;
 			break;
 		}
-		
+
 		if (smallShipFinish && bigShipFinish)
 		{
 			clrscr();

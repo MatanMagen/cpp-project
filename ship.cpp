@@ -17,7 +17,7 @@ int Ship::move(GameConfig::eKeys direction, Board& board)
 		{
 			int x = pos[i].getX();
 			int y = pos[i].getY();
-			if (board.getBoard()[y - 1][x] >= 'a' && board.getBoard()[y - 1][x] <= 'c')
+			if (board.getBoard()[y - 1][x] >= 'a' && board.getBoard()[y - 1][x] <= 'z')
 			{
 				xBlock = x;
 				yBlock = y;
@@ -45,7 +45,7 @@ int Ship::move(GameConfig::eKeys direction, Board& board)
 			boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
 			if (boardPlace == 'W')
 				hitwall = true;
-			else if (boardPlace >= 'a' && boardPlace <= 'c')
+			else if (boardPlace >= 'a' && boardPlace <= 'z')
 			{
 				hitBlock = true;
 				chBlock = boardPlace;
@@ -83,7 +83,7 @@ int Ship::move(GameConfig::eKeys direction, Board& board)
 							for (int i = 0; i < size; i++)
 							{
 								boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
-								if (boardPlace == 'W' || (boardPlace >= 'a' && boardPlace <= 'c') || (shipType != '#' && boardPlace == '#') || (shipType != '@' && boardPlace == '@'))
+								if (boardPlace == 'W' || (boardPlace >= 'a' && boardPlace <= 'z') || (shipType != '#' && boardPlace == '#') || (shipType != '@' && boardPlace == '@'))
 									toStop = true;
 							}
 						}

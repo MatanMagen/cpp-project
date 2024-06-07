@@ -17,7 +17,7 @@ bool Board::readMap(std::string fileName) {
 		}
 	}
 
-	if (!file.getline(time,4)) {
+	if (!file.getline(time, 4)) {
 		cerr << "Error reading from file: " << fileName << endl;
 		return false;
 	}
@@ -31,7 +31,7 @@ void Board::init(std::string fileName) {
 	if (!readMap(fileName))
 		return;
 	std::memcpy(board, original_board, sizeof(original_board));
-	for (int i = 0; i < HEIGHT ; i++) {
+	for (int i = 0; i < HEIGHT; i++) {
 		for (int j = 0; j < WIDTH; j++) {
 			if (board[i][j] == '&') {
 				legend_pos.set(j, i);
@@ -48,9 +48,11 @@ void Board::init(std::string fileName) {
 				ships[1].setMaxMove(MAX_MOVE_BIG_SHIP);
 				//ships[1].setBackgroundColor(shipColor);
 			}
-			else if (board[i][j] >= 'a' && board[i][j] <= 'c') {
+			else if (board[i][j] >= 'a' && board[i][j] <= 'z') {
 				size_t block_index = board[i][j] - 'a';
 				blocks[block_index].addPoint(j, i);
+				//blocks[block_index].toFall(GameConfig::eKeys::DOWN, board[i][j], this->board, false)
+
 				//blocks[block_index].setBackgroundColor(blockColor);
 			}
 			else if (board[i][j] == 'X') {

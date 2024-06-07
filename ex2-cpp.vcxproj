@@ -132,6 +132,7 @@
     <ClInclude Include="block.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="gameConfig.h" />
+    <ClInclude Include="gameManager.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="point.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="block.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="gameConfig.cpp" />
+    <ClCompile Include="gameManager.cpp" />
     <ClCompile Include="genaral.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="point.cpp" />

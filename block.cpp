@@ -79,7 +79,7 @@ bool Block::ishitObject(GameConfig::eKeys direction, char ch, Board& board, bool
 		boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
 		if (boardPlace == 'W' || boardPlace == '@' || boardPlace == '#')
 			hitObject = true;
-		if (boardPlace >= 'a' && boardPlace <= 'c' && boardPlace != ch)
+		if (boardPlace >= 'a' && boardPlace <= 'z' && boardPlace != ch)
 		{
 			*hitBlock = true;
 			*whichBlockHit = boardPlace;
