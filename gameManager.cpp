@@ -6,6 +6,7 @@
 #include <cstring>
 using std::string;
 namespace fs = std::filesystem;
+#include <fstream>
 #include <conio.h> // for kbhit+getch
 #include <Windows.h> // for Sleep and colors
 #include "general.h"
@@ -55,23 +56,31 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 	int screenPlay = 0;
 	int possibleNextGame;
 	int numLifes = START_LIFE;
+	ofstream recording(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+	ofstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
 
 	while (numLifes > 0 && screenPlay < 3)
 	{
 		ShipsGame theGame;
-
 		clrscr();
 		theGame.setColors(blockColor, shipColor, wallColor, winningColor);
 		theGame.init(fileName[screenPlay]);
 		theGame.showMenu();
-		possibleNextGame = theGame.run(numLifes);
+		possibleNextGame = theGame.run(numLifes, result, recording);
 
 		if (possibleNextGame == GAME_STOPED)
 			break;
 		else if (possibleNextGame == GAME_LOST)
+		{
+			recording << "minus life" << endl;
 			--numLifes;
+		}	
 		else if (possibleNextGame == GAME_WON)
+		{
+			recording << "new screen" << endl;
 			screenPlay++;
+		}
+
 	}
 
 	if (numLifes == 0)
@@ -85,6 +94,8 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 		clrscr();
 		cout << "YOU WON!!!";
 	}
+	recording.close();
+	result.close();
 
 }
 
@@ -92,21 +103,25 @@ void GameManager::runSpecificGame(int blockColor, int shipColor, int wallColor, 
 {
 	bool possibleNextGame = true;
 	int numLifes = START_LIFE;
+	ofstream recording(fileName.substr(0, 4) + ".steps.txt");
+	ofstream result(fileName.substr(0, 4) + ".result.txt");
 
 	while (numLifes > 0 && possibleNextGame)
 	{
 		ShipsGame theGame;
-
 		clrscr();
 		theGame.setColors(blockColor, shipColor, wallColor, winningColor);
 		theGame.init(fileName);
 		theGame.showMenu();
-		possibleNextGame = theGame.run(numLifes);
+		possibleNextGame = theGame.run(numLifes, result, recording);
 
 		if (possibleNextGame == GAME_STOPED)
 			break;
 		else if (possibleNextGame == GAME_LOST)
+		{
+			recording << "minus life" << endl;
 			--numLifes;
+		}
 		else if (possibleNextGame == GAME_WON)
 		{
 			clrscr();
@@ -120,15 +135,10 @@ void GameManager::runSpecificGame(int blockColor, int shipColor, int wallColor, 
 		clrscr();
 		cout << "you lost the game";
 	}
+	recording.close();
+	result.close();
 
 }
-
-//std::string* findScreens()
-//{
-//	
-//
-//	return screens;
-//}
 
 void GameManager::gameMenu(std::string* screens, int numScreens)
 {

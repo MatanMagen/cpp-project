@@ -69,28 +69,6 @@ void Board::show() {
 		std::cout << board[i] << std::endl;
 	}
 
-	//for (int i = 0; i < HEIGHT; i++) {
-	//	for (int j = 0; j < WIDTH; j++) {
-	//		if (board[i][j] == '@' || board[i][j] == '#')
-	//			color = shipColor;
-	//		else if (board[i][j] >= 'a' && board[i][j] <= 'c')
-	//			color = blockColor;
-	//		else if (board[i][j] == 'X')
-	//			color = winningColor;
-	//		else if (board[i][j] == 'W')
-	//			color = wallColor;
-	//		else
-	//			color = GameConfig::COLORS[0];
-	//		
-	//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	//		std::cout << board[i][j];
-	//		//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), NO_COLOR);
-	//	}
-
-	//	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-	//	std::cout << "\n";
-	//}
-
 	gotoxy(legend_pos.getX() + 2, legend_pos.getY());
 	std::cout << "The time Remaining is:";
 	gotoxy(legend_pos.getX() + 2, legend_pos.getY() + 1);

@@ -34,15 +34,13 @@ void ShipsGame::gameInfo(int* time, char ship, int numLifes)
 		cout << "          ";
 }
 
-int ShipsGame::run(int numLifes)
+int ShipsGame::run(int numLifes, std::ofstream& result, std::ofstream& recording)
 {
 	int time = board.getTime(), shipStatus = SHIP_CAN_PLAY;
 	char lastShip = 'b';
 	int keyPressed = 0, possibleNextGame = GAME_WON;
 	bool pauseMode = false, bigShipFinish = false, smallShipFinish = false, createrecording = true;
-
-	ofstream recording("recording.txt");
-
+	
 	gameInfo(&time, lastShip, numLifes);
 
 	while (true)
@@ -82,6 +80,7 @@ int ShipsGame::run(int numLifes)
 				{
 					gameInfo(&time, lastShip, numLifes);
 					recording << time << " ESC" << endl;
+					recording.flush();
 				}
 
 			}
@@ -123,6 +122,9 @@ int ShipsGame::run(int numLifes)
 			gameInfo(&time, lastShip, numLifes);
 			if (time <= 0)
 			{
+				gameInfo(&time, lastShip, numLifes);
+				result  << "time over -> lost life" << endl;
+				result.flush();
 				possibleNextGame = GAME_LOST;
 				break;
 			}
@@ -169,12 +171,18 @@ int ShipsGame::run(int numLifes)
 
 		if (shipStatus == SHIP_DIED)
 		{
+			gameInfo(&time, lastShip, numLifes);
+			result << time << " lost life" << endl;
+			result.flush();
 			possibleNextGame = GAME_LOST;
 			break;
 		}
 
 		if (smallShipFinish && bigShipFinish)
 		{
+			gameInfo(&time, lastShip, numLifes);
+			result << time << " WIN!!!" << endl;
+			result.flush();
 			clrscr();
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 			cout << "You have completed the stage";
@@ -183,6 +191,5 @@ int ShipsGame::run(int numLifes)
 			break;
 		}
 	}
-	recording.close();
 	return possibleNextGame;
 }
