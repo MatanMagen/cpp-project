@@ -1,19 +1,4 @@
 #include "gameManager.h"
-#include <filesystem>
-#include <iostream>
-#include <string>
-#include <sys/stat.h>
-#include <cstring>
-using std::string;
-namespace fs = std::filesystem;
-#include <fstream>
-#include <conio.h> // for kbhit+getch
-#include <Windows.h> // for Sleep and colors
-#include "general.h"
-#include "gameConfig.h"
-#include "point.h"
-#include "ship.h"
-#include "shipsGame.h"
 
 void GameManager::playGame(int argc, char* argv[])
 {
@@ -57,11 +42,10 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 	int possibleNextGame;
 	int numLifes = START_LIFE;
 	ofstream recording;
-	if (mode ==  SAVE_MODE)
+	if (mode == SAVE_MODE)
 	{
 		recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
 	}
-
 
 	ofstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
 
@@ -74,7 +58,7 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 		theGame.showMenu();
 		possibleNextGame = theGame.run(mode, numLifes, result, recording);
 
-		if (possibleNextGame == GAME_STOPED)
+		if (possibleNextGame == GAME_EXIT)
 			break;
 		else if (possibleNextGame == GAME_LOST)
 		{
@@ -108,7 +92,7 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 
 }
 
-void GameManager::runSpecificGame(char mode,int blockColor, int shipColor, int wallColor, int winningColor, std::string fileName)
+void GameManager::runSpecificGame(char mode, int blockColor, int shipColor, int wallColor, int winningColor, std::string fileName)
 {
 	bool possibleNextGame = true;
 	int numLifes = START_LIFE;
@@ -122,7 +106,7 @@ void GameManager::runSpecificGame(char mode,int blockColor, int shipColor, int w
 		theGame.setColors(blockColor, shipColor, wallColor, winningColor);
 		theGame.init(fileName);
 		theGame.showMenu();
-		possibleNextGame = theGame.run(mode,numLifes, result, recording);
+		possibleNextGame = theGame.run(mode, numLifes, result, recording);
 
 		if (possibleNextGame == GAME_STOPED)
 			break;
@@ -197,7 +181,7 @@ void GameManager::gameMenu(std::string* screens, int numScreens, char mode)
 				std::cout << i + 1 << ". " << screens[i] << "\n";
 
 			screenPlay = _getch() - '1';
-			runSpecificGame(mode,blockColor, shipColor, wallColor, winningColor, screens[screenPlay]);
+			runSpecificGame(mode, blockColor, shipColor, wallColor, winningColor, screens[screenPlay]);
 		}
 		else if (action == 8)
 		{

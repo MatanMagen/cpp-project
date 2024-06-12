@@ -6,6 +6,7 @@
 #include "block.h"
 #include "board.h"
 #include "abs_game.h"
+#include <fstream>
 using namespace std;
 using std::string;
 
@@ -13,12 +14,13 @@ using std::string;
 #define GAME_LOST 1
 #define GAME_WON 2
 #define GAME_NEED_TO_RUN 3
+#define GAME_EXIT 4
 
 class Ship;
 class Block;
 class Board;
 
-class ShipsGame:public abs_Game
+class ShipsGame :public abs_Game
 {
 
 public:

@@ -11,6 +11,7 @@ using std::string;
 #define GAME_STOPED 0
 #define GAME_LOST 1
 #define GAME_WON 2
+#define GAME_PLAY 3
 
 class Board;
 
@@ -33,8 +34,8 @@ public:
 		board.show();
 	}
 	virtual void gameInfo(char ship, int numLifes);
-	virtual int runStep(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
-	virtual char status(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
+	virtual int runStep(int keyPlay, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
+	virtual char status(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame);
 	virtual int resultGame(char lastShip, int numLifes, int shipStatus, std::ofstream& result);
 
 };

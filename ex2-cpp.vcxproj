@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="abs_game.h" />
     <ClInclude Include="block.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="gameConfig.h" />
@@ -136,10 +137,12 @@
     <ClInclude Include="general.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="point.h" />
+    <ClInclude Include="recordGame.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="shipsGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="abs_game.cpp" />
     <ClCompile Include="block.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="gameConfig.cpp" />
@@ -147,6 +150,7 @@
     <ClCompile Include="genaral.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="point.cpp" />
+    <ClCompile Include="recordGame.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="shipsGame.cpp" />
   </ItemGroup>

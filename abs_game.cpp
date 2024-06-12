@@ -35,62 +35,50 @@ void abs_Game::gameInfo(char ship, int numLifes)
 		cout << "          ";
 }
 
-char abs_Game::status(int keyPlay, char lastShip , int lastStatus ,int numLifes, std::ofstream& recording, char mode)
+char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame)
 {
-	int possibleNextGame = GAME_WON;
-	bool pauseMode = false;
 
-	if (keyPlay == (int)GameConfig::eKeys::ESC)
+	if (*statusGame == GAME_STOPED && keyPlay == (int)GameConfig::eKeys::EXIT)
 	{
-		board.getships(0).move(GameConfig::eKeys::PAUSE, board);
-		board.getships(1).move(GameConfig::eKeys::PAUSE, board);
-		keyPlay = 0;
-		if (!pauseMode)
-		{
-			clrscr();
-			pauseMode = true;
-			cout << "Game paused, press ESC again to continue or 9 to Exit";
-		}
-		else
-		{
-			clrscr();
-			pauseMode = false;
-			board.show();
-		}
 		if (mode == SAVE_MODE)
 		{
 			recording << time << keyPlay << endl;
 			recording.flush();
 		}
 
-		if (pauseMode && _getch() == (int)GameConfig::eKeys::EXIT)
+		clrscr();
+		cout << "\nexit game tnx";
+		*statusGame = GAME_EXIT;
+
+		if (mode == SAVE_MODE)
 		{
-			if (mode == SAVE_MODE)
-			{
-				recording << time << keyPlay << endl;
-				recording.flush();
-			}
+			recording << time << keyPlay << endl;
+			recording.flush();
+		}
 
-			cout << "\nexit game tnx";
-			possibleNextGame = GAME_STOPED;
-
-			if (mode == SAVE_MODE)
-			{
-				recording << time << keyPlay << endl;
-				recording.flush();
-			}
-			else
-			{
-				clrscr();
-				pauseMode = false;
-				board.show();
-			}
-			if (mode == SAVE_MODE)
-			{
-				recording << time << keyPlay << endl;
-				recording.flush();
-			}
-			return lastShip;
+		return lastShip;
+	}
+	if (keyPlay == (int)GameConfig::eKeys::ESC)
+	{
+		board.getships(0).move(GameConfig::eKeys::PAUSE, board);
+		board.getships(1).move(GameConfig::eKeys::PAUSE, board);
+		keyPlay = 0;
+		if (*statusGame != GAME_STOPED)
+		{
+			clrscr();
+			*statusGame = GAME_STOPED;
+			cout << "Game paused, press ESC again to continue or 9 to Exit";
+		}
+		else
+		{
+			clrscr();
+			*statusGame = GAME_PLAY;
+			board.show();
+		}
+		if (mode == SAVE_MODE)
+		{
+			recording << time << keyPlay << endl;
+			recording.flush();
 		}
 	}
 
@@ -125,12 +113,14 @@ char abs_Game::status(int keyPlay, char lastShip , int lastStatus ,int numLifes,
 
 		return lastShip;
 	}
+
+	return lastShip;
 }
 
-int abs_Game::runStep(int keyPlay,char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode)
+int abs_Game::runStep(int keyPlay, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode)
 {
-	int shipStatus = lastStatus;
-	gameInfo(lastShip, numLifes);
+	int shipStatus = lastStatus, temp;
+	gameInfo(*lastShip, numLifes);
 	if (keyPlay != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
 		&& keyPlay != (int)GameConfig::eKeys::SWAP_BIG && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL && keyPlay != 0)
 	{
@@ -140,31 +130,36 @@ int abs_Game::runStep(int keyPlay,char lastShip, int lastStatus, int numLifes, s
 			recording.flush();
 		}
 
-		if (lastShip == 'b' && lastStatus != BIG_SHIP_FINISH)
+		if (*lastShip == 'b' && lastStatus != BIG_SHIP_FINISH)
 		{
-			shipStatus = board.getships(1).move((GameConfig::eKeys)keyPlay, board);
-			if (shipStatus == SHIP_FINISH)
+			temp = board.getships(1).move((GameConfig::eKeys)keyPlay, board);
+			if (temp == SHIP_FINISH)
 			{
-				if (lastStatus == SMALL_SHIP_FINISH)
-				{
+				if (shipStatus == SMALL_SHIP_FINISH)
 					shipStatus = BOTH_FINISH;
+				else
+				{
+					shipStatus = BIG_SHIP_FINISH;
+					*lastShip = ' ';
 				}
-				shipStatus = BIG_SHIP_FINISH;
 			}
 		}
-		if (lastShip == 's' && lastStatus != SMALL_SHIP_FINISH)
+		if (*lastShip == 's' && lastStatus != SMALL_SHIP_FINISH)
 		{
-			shipStatus = board.getships(0).move((GameConfig::eKeys)keyPlay, board);
-			if (shipStatus == SHIP_FINISH)
+			temp = board.getships(0).move((GameConfig::eKeys)keyPlay, board);
+			if (temp == SHIP_FINISH)
 			{
-				if (lastStatus == BIG_SHIP_FINISH)
-				{
+				if (shipStatus == BIG_SHIP_FINISH)
 					shipStatus = BOTH_FINISH;
+				else
+				{
+					shipStatus = SMALL_SHIP_FINISH;
+					*lastShip = ' ';
 				}
-				shipStatus = SMALL_SHIP_FINISH;
 			}
 		}
 	}
+
 	return shipStatus;
 }
 
@@ -185,15 +180,13 @@ int abs_Game::resultGame(char lastShip, int numLifes, int shipStatus, std::ofstr
 		possibleNextGame = GAME_LOST;
 	}
 
-	if (shipStatus == BOTH_FINISH )
+	if (shipStatus == BOTH_FINISH)
 	{
 		possibleNextGame = GAME_WON;
 		result << time << " WIN!!!" << endl;
 		result.flush();
 		clrscr();
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
-		cout << "You have completed the stage";
-		Sleep(500);
 	}
 
 	return possibleNextGame;
