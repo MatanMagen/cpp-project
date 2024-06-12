@@ -5,6 +5,7 @@
 #include "ship.h"
 #include "block.h"
 #include "board.h"
+#include "abs_game.h"
 using namespace std;
 using std::string;
 
@@ -16,24 +17,11 @@ class Ship;
 class Block;
 class Board;
 
-class ShipsGame
+class ShipsGame:public abs_Game
 {
-	Board board;
-	string name;
 
 public:
-	void setColors(int blockColor, int shipColor, int wallColor, int winningColor) {
-		board.setColors(blockColor, shipColor, wallColor, winningColor);
-	}
-	void init(std::string fileName) {
-		board.init(fileName);
-		name = fileName;
-	}
-	void showMenu() {
-		board.show();
-	}
-	void gameInfo(int* time, char ship, int numLifes);
-	int run(int numLifes, std::ofstream& result, std::ofstream& recording);
+	int run(char mode, int numLifes, std::ofstream& result, std::ofstream& recording);
 };
 
 #endif

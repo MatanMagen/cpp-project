@@ -48,7 +48,7 @@ void GameManager::playGame(int argc, char* argv[])
 	else //playing regular game from the keyboard
 		gameMenu(screens, numScreens);
 
-	
+
 }
 
 void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName)
@@ -74,7 +74,7 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 		{
 			recording << "minus life" << endl;
 			--numLifes;
-		}	
+		}
 		else if (possibleNextGame == GAME_WON)
 		{
 			recording << "new screen" << endl;
