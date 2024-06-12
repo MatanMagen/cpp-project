@@ -1,4 +1,5 @@
 #include "abs_Game.h"
+#include "GameManager.h"
 #include <fstream>
 
 void abs_Game::gameInfo(char ship, int numLifes)
@@ -34,29 +35,16 @@ void abs_Game::gameInfo(char ship, int numLifes)
 		cout << "          ";
 }
 
-int abs_Game::status(int keyPlay, int numLifes, std::ofstream& result, std::ofstream& recording)
+char abs_Game::status(int keyPlay, char lastShip , int lastStatus ,int numLifes, std::ofstream& recording, char mode)
 {
-	//int time = board.getTime();
-	char lastShip = 'b';
 	int possibleNextGame = GAME_WON;
-	bool pauseMode = false, createrecording = true;
+	bool pauseMode = false;
 
-	gameInfo(lastShip, numLifes);
-
-	if (pauseMode && keyPlay == (int)GameConfig::eKeys::EXIT)
-	{
-		if (createrecording)
-		{
-			recording << time << " EXIT" << endl;
-			recording.flush();
-		}
-
-		cout << "\nexit game tnx";
-		possibleNextGame = GAME_STOPED;
-		return 9;
-	}
 	if (keyPlay == (int)GameConfig::eKeys::ESC)
 	{
+		board.getships(0).move(GameConfig::eKeys::PAUSE, board);
+		board.getships(1).move(GameConfig::eKeys::PAUSE, board);
+		keyPlay = 0;
 		if (!pauseMode)
 		{
 			clrscr();
@@ -69,101 +57,126 @@ int abs_Game::status(int keyPlay, int numLifes, std::ofstream& result, std::ofst
 			pauseMode = false;
 			board.show();
 		}
-		if (createrecording)
+		if (mode == SAVE_MODE)
 		{
-			recording << time << " ESC" << endl;
+			recording << time << keyPlay << endl;
 			recording.flush();
 		}
 
+		if (pauseMode && _getch() == (int)GameConfig::eKeys::EXIT)
+		{
+			if (mode == SAVE_MODE)
+			{
+				recording << time << keyPlay << endl;
+				recording.flush();
+			}
+
+			cout << "\nexit game tnx";
+			possibleNextGame = GAME_STOPED;
+
+			if (mode == SAVE_MODE)
+			{
+				recording << time << keyPlay << endl;
+				recording.flush();
+			}
+			else
+			{
+				clrscr();
+				pauseMode = false;
+				board.show();
+			}
+			if (mode == SAVE_MODE)
+			{
+				recording << time << keyPlay << endl;
+				recording.flush();
+			}
+			return lastShip;
+		}
 	}
+
 	if (keyPlay == (int)GameConfig::eKeys::SWAP_BIG_LOWER || keyPlay == (int)GameConfig::eKeys::SWAP_BIG)
 	{
-		if (!bigShipFinish)
+		if (lastStatus != BIG_SHIP_FINISH)
 			lastShip = 'b';
 		else
 			lastShip = ' ';
 
-		if (createrecording)
+		if (mode == SAVE_MODE)
 		{
-			recording << time << " SWAP_BIG" << endl;
+			recording << time << keyPlay << endl;
 			recording.flush();
 		}
+
+		return lastShip;
 	}
 
 	if (keyPlay == (int)GameConfig::eKeys::SWAP_SMALL_LOWER || keyPlay == (int)GameConfig::eKeys::SWAP_SMALL)
 	{
-		if (!smallShipFinish)
+		if (lastStatus != SMALL_SHIP_FINISH)
 			lastShip = 's';
 		else
 			lastShip = ' ';
 
-		if (createrecording)
+		if (mode == SAVE_MODE)
 		{
-			recording << time << " SWAP_SMALL" << endl;
+			recording << time << keyPlay << endl;
 			recording.flush();
 		}
+
+		return lastShip;
 	}
 }
 
-int abs_Game::runStep(int keyPlay, bool pauseMode,char lastShip, int numLifes, std::ofstream& result, std::ofstream& recording)
+int abs_Game::runStep(int keyPlay,char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode)
 {
-	int shipStatus = SHIP_CAN_PLAY;
-	bool possibleNextGame = GAME_WON;
-
-	if (!pauseMode)
+	int shipStatus = lastStatus;
+	gameInfo(lastShip, numLifes);
+	if (keyPlay != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
+		&& keyPlay != (int)GameConfig::eKeys::SWAP_BIG && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL && keyPlay != 0)
 	{
-		gameInfo(lastShip, numLifes);
-		if (time <= 0)
+		if (mode == SAVE_MODE)
 		{
-			result << "time over -> lost life" << endl;
-			result.flush();
-			possibleNextGame = GAME_LOST;
-			return 9;
+			recording << time << keyPlay << endl;
+			recording.flush();
 		}
 
-		if (keyPlay == (int)GameConfig::eKeys::ESC)
+		if (lastShip == 'b' && lastStatus != BIG_SHIP_FINISH)
 		{
-			shipStatus = board.getships(0).move(GameConfig::eKeys::PAUSE, board);
-			shipStatus = board.getships(1).move(GameConfig::eKeys::PAUSE, board);
-			keyPlay = 0;
-		}
-		else
-		{
-			if (keyPlay != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
-				&& keyPlay != (int)GameConfig::eKeys::SWAP_BIG && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL && keyPressed != 0)
+			shipStatus = board.getships(1).move((GameConfig::eKeys)keyPlay, board);
+			if (shipStatus == SHIP_FINISH)
 			{
-				if (createrecording)
+				if (lastStatus == SMALL_SHIP_FINISH)
 				{
-					recording << time << " " << char(keyPressed) << endl;
-					recording.flush();
+					shipStatus = BOTH_FINISH;
 				}
-
-				if (lastShip == 'b' && !bigShipFinish)
+				shipStatus = BIG_SHIP_FINISH;
+			}
+		}
+		if (lastShip == 's' && lastStatus != SMALL_SHIP_FINISH)
+		{
+			shipStatus = board.getships(0).move((GameConfig::eKeys)keyPlay, board);
+			if (shipStatus == SHIP_FINISH)
+			{
+				if (lastStatus == BIG_SHIP_FINISH)
 				{
-					shipStatus = board.getships(1).move((GameConfig::eKeys)keyPressed, board);
-					if (shipStatus == SHIP_FINISH)
-					{
-						bigShipFinish = true;
-						lastShip = ' ';
-					}
+					shipStatus = BOTH_FINISH;
 				}
-				if (lastShip == 's' && !smallShipFinish)
-				{
-					shipStatus = board.getships(0).move((GameConfig::eKeys)keyPressed, board);
-					if (shipStatus == SHIP_FINISH)
-					{
-						smallShipFinish = true;
-						smallShipFinish = ' ';
-					}
-				}
+				shipStatus = SMALL_SHIP_FINISH;
 			}
 		}
 	}
+	return shipStatus;
 }
 
-bool abs_Game::resultGame(bool pauseMode, char lastShip, int numLifes, bool shipStatus, std::ofstream& result)
+int abs_Game::resultGame(char lastShip, int numLifes, int shipStatus, std::ofstream& result)
 {
-	bool possibleNextGame = GAME_WON;
+	int possibleNextGame = GAME_NEED_TO_RUN;
+	if (time <= 0)
+	{
+		result << "time over -> lost life" << endl;
+		result.flush();
+		possibleNextGame = GAME_LOST;
+	}
 
 	if (shipStatus == SHIP_DIED)
 	{
@@ -172,15 +185,15 @@ bool abs_Game::resultGame(bool pauseMode, char lastShip, int numLifes, bool ship
 		possibleNextGame = GAME_LOST;
 	}
 
-	if (smallShipFinish && bigShipFinish)
+	if (shipStatus == BOTH_FINISH )
 	{
+		possibleNextGame = GAME_WON;
 		result << time << " WIN!!!" << endl;
 		result.flush();
 		clrscr();
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
 		cout << "You have completed the stage";
 		Sleep(500);
-		possibleNextGame = GAME_WON;
 	}
 
 	return possibleNextGame;

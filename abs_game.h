@@ -19,8 +19,6 @@ class abs_Game
 	Board board;
 	string name;
 	int time;
-	bool smallShipFinish;
-	bool bigShipFinish;
 
 public:
 	void setColors(int blockColor, int shipColor, int wallColor, int winningColor) {
@@ -30,16 +28,14 @@ public:
 		board.init(fileName);
 		name = fileName;
 		time = board.getTime();
-		smallShipFinish = bigShipFinish = false;
 	}
 	void showMenu() {
 		board.show();
 	}
 	virtual void gameInfo(char ship, int numLifes);
-	virtual int runStep(int keyPlay, bool pauseMode, char lastShip, int numLifes, std::ofstream& result, std::ofstream& recording);
-	virtual int status(int keyPlay, int numLifes, std::ofstream& result, std::ofstream& recording);
-	virtual bool resultGame(bool pauseMode, char lastShip, int numLifes, bool shipStatus, std::ofstream& result);
-	virtual void abstract()const = 0;
+	virtual int runStep(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
+	virtual char status(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
+	virtual int resultGame(char lastShip, int numLifes, int shipStatus, std::ofstream& result);
 
 };
 

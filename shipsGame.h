@@ -12,6 +12,7 @@ using std::string;
 #define GAME_STOPED 0
 #define GAME_LOST 1
 #define GAME_WON 2
+#define GAME_NEED_TO_RUN 3
 
 class Ship;
 class Block;

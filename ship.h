@@ -8,6 +8,9 @@ class Board;
 #define SHIP_FINISH 0
 #define SHIP_DIED 1
 #define SHIP_CAN_PLAY 2
+#define BIG_SHIP_FINISH 3
+#define SMALL_SHIP_FINISH 4
+#define BOTH_FINISH 5
 
 class Ship {
 	constexpr static size_t MAX_SHIP_SIZE = 4;
