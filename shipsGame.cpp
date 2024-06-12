@@ -10,11 +10,13 @@ int ShipsGame::run(char mode, int numLifes, std::ofstream& result, std::ofstream
 		if (_kbhit())
 		{
 			keyPlay = _getch();
-			runStep(keyPlay, numLifes, result, recording);
+			status(keyPlay, numLifes,result, recording);
 		}
 
 		Sleep(200);
 
+		runStep(pauseMode, lastShip, numLifes, result, recording);
+		resultGame(pauseMode, lastShip, numLifes, shipStatus, smallShipFinish, bigShipFinish, result);
 	}
 
 	return 9;
