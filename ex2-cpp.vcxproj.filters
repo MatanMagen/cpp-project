@@ -45,7 +45,7 @@
     <ClInclude Include="abs_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="recordGame.h">
+    <ClInclude Include="loadGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,7 +80,7 @@
     <ClCompile Include="abs_game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="recordGame.cpp">
+    <ClCompile Include="loadGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

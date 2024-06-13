@@ -1,6 +1,6 @@
 #include "shipsGame.h"
 
-int ShipsGame::run(char mode, int numLifes, std::fstream& result, std::ofstream& recording)
+int ShipsGame::run(char mode, int numLifes, std::fstream& result, std::fstream& recording)
 {
 	int keyPlay = -1, lastKey = -1, statusGame = GAME_NEED_TO_RUN, shipStatus = SHIP_CAN_PLAY;
 	char currShip = 'b';

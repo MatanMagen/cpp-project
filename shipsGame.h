@@ -10,12 +10,6 @@
 using namespace std;
 using std::string;
 
-#define GAME_STOPED 0
-#define GAME_LOST 1
-#define GAME_WON 2
-#define GAME_NEED_TO_RUN 3
-#define GAME_EXIT 4
-
 class Ship;
 class Block;
 class Board;
@@ -24,7 +18,7 @@ class ShipsGame :public abs_Game
 {
 
 public:
-	int run(char mode, int numLifes, std::fstream& result, std::ofstream& recording);
+	int run(char mode, int numLifes, std::fstream& result, std::fstream& recording);
 };
 
 #endif

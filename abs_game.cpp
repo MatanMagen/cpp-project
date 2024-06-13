@@ -37,7 +37,7 @@ void abs_Game::gameInfo(char ship, int numLifes)
 		cout << "          ";
 }
 
-char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame)
+char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode, int* statusGame)
 {
 
 	if (*statusGame == GAME_STOPED && keyPlay == (int)GameConfig::eKeys::EXIT)
@@ -80,7 +80,7 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 		else
 		{
 			clrscr();
-			*statusGame = GAME_PLAY;
+			*statusGame = GAME_NEED_TO_RUN;
 			board.show();
 		}
 		if (mode == SAVE_MODE)
@@ -134,7 +134,7 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 	return lastShip;
 }
 
-int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode)
+int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode)
 {
 	int shipStatus = lastStatus, temp;
 	gameInfo(*lastShip, numLifes);

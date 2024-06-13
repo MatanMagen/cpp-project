@@ -41,8 +41,7 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 {
 	int possibleNextGame = GAME_NEED_TO_RUN;
 	int numLifes = START_LIFE;
-	ofstream recording;
-	fstream result;
+	fstream recording, result;
 
 	if (mode == SAVE_MODE)
 	{
