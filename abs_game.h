@@ -34,6 +34,10 @@ public:
 	void showMenu() {
 		board.show();
 	}
+	virtual int getTime()
+	{
+		return time;
+	}
 	virtual void gameInfo(char ship, int numLifes);
 	virtual int runStep(int keyPlay, int lastKey, char* lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode);
 	virtual char status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode, int* statusGame);

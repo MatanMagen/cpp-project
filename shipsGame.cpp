@@ -1,5 +1,5 @@
-#include "shipsGame.h"
-
+﻿#include "shipsGame.h"
+//צריך להעביר את התעסקות עם הקבצים מהאבסטרקתית משחקים עצמם
 int ShipsGame::run(char mode, int numLifes, std::fstream& result, std::fstream& recording)
 {
 	int keyPlay = -1, lastKey = -1, statusGame = GAME_NEED_TO_RUN, shipStatus = SHIP_CAN_PLAY;

@@ -5,6 +5,7 @@
 #include <fstream>
 namespace fs = std::filesystem;
 #include "shipsGame.h"
+#include "loadGame.h"
 
 #define SAVE_MODE 'r'
 #define LOAD_MODE 'l'

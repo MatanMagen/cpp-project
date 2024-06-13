@@ -27,12 +27,15 @@ void GameManager::playGame(int argc, char* argv[])
 			if (argc > 2 && strcmp(argv[2], "-silent") == 0)
 				mode = SILENT_MODE;
 			else
+			{
 				mode = LOAD_MODE;
+				runShipsGame(15, 15, 15, 15, screens, mode, false, 0);
+			}
 		}
 		else if (strcmp(argv[1], "-save") == 0)
 			mode = SAVE_MODE; //recording game
 	}
-	
+
 	if(mode != LOAD_MODE && mode != SILENT_MODE) //playing regular game from the keyboard
 		gameMenu(screens, numScreens, mode);
 }
@@ -41,23 +44,43 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 {
 	int possibleNextGame = GAME_NEED_TO_RUN;
 	int numLifes = START_LIFE;
-	fstream recording, result;
+	fstream recording(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+	fstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
+	//fstream recording, result;
 
-	if (mode == SAVE_MODE)
-	{
-		recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+	if (!recording.is_open() || !result.is_open()) {
+		// Handle error
+		std::cerr << "Failed to open files for writing." << std::endl;
+		Sleep(100000);
 	}
 
-	result.open(fileName[screenPlay].substr(0, 4) + ".result.txt");
 
 	while (numLifes > 0 && (possibleNextGame == GAME_NEED_TO_RUN || possibleNextGame == GAME_STOPED))
 	{
-		ShipsGame theGame;
-		clrscr();
-		theGame.setColors(blockColor, shipColor, wallColor, winningColor);
-		theGame.init(fileName[screenPlay]);
-		theGame.showMenu();
-		possibleNextGame = theGame.run(mode, numLifes, result, recording);
+		if (mode == LOAD_MODE)
+		{
+			//recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+			//result.open(fileName[screenPlay].substr(0, 4) + ".result.txt");
+
+			loadGame theGame;
+			clrscr();
+			theGame.setColors(blockColor, shipColor, wallColor, winningColor);
+			theGame.init(fileName[screenPlay]);
+			theGame.showMenu();
+			possibleNextGame = theGame.run(mode, numLifes, result, recording);
+		}
+		else
+		{
+			
+
+			ShipsGame theGame;
+			clrscr();
+			theGame.setColors(blockColor, shipColor, wallColor, winningColor);
+			theGame.init(fileName[screenPlay]);
+			theGame.showMenu();
+			possibleNextGame = theGame.run(mode, numLifes, result, recording);
+		}
+		
 
 		if (possibleNextGame == GAME_EXIT)
 			break;
@@ -86,12 +109,12 @@ void GameManager::runShipsGame(int blockColor, int shipColor, int wallColor, int
 			}
 			else
 			{
-				recording << "won screen" << endl;
 				if (mode == SAVE_MODE)
 				{
-					recording.close();
-					recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+					recording << "won screen" << endl;
 				}
+				recording.close();
+				recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
 				result.close();
 				result.open(fileName[screenPlay].substr(0, 4) + ".result.txt");
 				possibleNextGame = GAME_NEED_TO_RUN;
