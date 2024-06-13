@@ -34,9 +34,9 @@ public:
 		board.show();
 	}
 	virtual void gameInfo(char ship, int numLifes);
-	virtual int runStep(int keyPlay, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
-	virtual char status(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame);
-	virtual int resultGame(char lastShip, int numLifes, int shipStatus, std::ofstream& result);
+	virtual int runStep(int keyPlay, int lastKey, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode);
+	virtual char status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame);
+	virtual int resultGame(char lastShip, int numLifes, int shipStatus, std::fstream& result);
 
 };
 

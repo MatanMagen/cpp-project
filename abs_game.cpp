@@ -1,6 +1,8 @@
 #include "abs_Game.h"
 #include "GameManager.h"
 #include <fstream>
+#include <iostream>
+#include <string>
 
 void abs_Game::gameInfo(char ship, int numLifes)
 {
@@ -35,15 +37,18 @@ void abs_Game::gameInfo(char ship, int numLifes)
 		cout << "          ";
 }
 
-char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame)
+char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode, int* statusGame)
 {
 
 	if (*statusGame == GAME_STOPED && keyPlay == (int)GameConfig::eKeys::EXIT)
 	{
 		if (mode == SAVE_MODE)
 		{
-			recording << time << keyPlay << endl;
-			recording.flush();
+			if (keyPlay != lastKey)
+			{
+				recording << time << " " << keyPlay << endl;
+				recording.flush();
+			}
 		}
 
 		clrscr();
@@ -52,8 +57,11 @@ char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, 
 
 		if (mode == SAVE_MODE)
 		{
-			recording << time << keyPlay << endl;
-			recording.flush();
+			if (keyPlay != lastKey)
+			{
+				recording << time << " " << keyPlay << endl;
+				recording.flush();
+			}
 		}
 
 		return lastShip;
@@ -77,8 +85,11 @@ char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, 
 		}
 		if (mode == SAVE_MODE)
 		{
-			recording << time << keyPlay << endl;
-			recording.flush();
+			if (keyPlay != lastKey)
+			{
+				recording << time << " " << keyPlay << endl;
+				recording.flush();
+			}
 		}
 	}
 
@@ -91,8 +102,11 @@ char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, 
 
 		if (mode == SAVE_MODE)
 		{
-			recording << time << keyPlay << endl;
-			recording.flush();
+			if (keyPlay != lastKey)
+			{
+				recording << time << " " << keyPlay << endl;
+				recording.flush();
+			}
 		}
 
 		return lastShip;
@@ -107,8 +121,11 @@ char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, 
 
 		if (mode == SAVE_MODE)
 		{
-			recording << time << keyPlay << endl;
-			recording.flush();
+			if (keyPlay != lastKey)
+			{
+				recording << time << " " << keyPlay << endl;
+				recording.flush();
+			}
 		}
 
 		return lastShip;
@@ -117,7 +134,7 @@ char abs_Game::status(int keyPlay, char lastShip, int lastStatus, int numLifes, 
 	return lastShip;
 }
 
-int abs_Game::runStep(int keyPlay, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode)
+int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, int numLifes, std::ofstream& recording, char mode)
 {
 	int shipStatus = lastStatus, temp;
 	gameInfo(*lastShip, numLifes);
@@ -126,8 +143,11 @@ int abs_Game::runStep(int keyPlay, char* lastShip, int lastStatus, int numLifes,
 	{
 		if (mode == SAVE_MODE)
 		{
-			recording << time << keyPlay << endl;
-			recording.flush();
+			if (keyPlay != lastKey)
+			{
+				recording << time << " " << keyPlay << endl;
+				recording.flush();
+			}
 		}
 
 		if (*lastShip == 'b' && lastStatus != BIG_SHIP_FINISH)
@@ -163,7 +183,7 @@ int abs_Game::runStep(int keyPlay, char* lastShip, int lastStatus, int numLifes,
 	return shipStatus;
 }
 
-int abs_Game::resultGame(char lastShip, int numLifes, int shipStatus, std::ofstream& result)
+int abs_Game::resultGame(char lastShip, int numLifes, int shipStatus, std::fstream& result)
 {
 	int possibleNextGame = GAME_NEED_TO_RUN;
 	if (time <= 0)
