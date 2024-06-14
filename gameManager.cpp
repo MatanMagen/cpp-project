@@ -181,11 +181,11 @@ void GameManager::runLoadGame(int blockColor, int shipColor, int wallColor, int 
 	bool diffResult = false;
 	std::string line;
 
+	recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+	result.open(fileName[screenPlay].substr(0, 4) + ".result.txt");
+
 	while (gameStatus == GAME_NEED_TO_RUN || gameStatus == GAME_STOPED)
 	{
-		recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
-		result.open(fileName[screenPlay].substr(0, 4) + ".result.txt");
-
 		getline(result, line);
 		std::istringstream lineStream(line);
 		lineStream >> firstPart >> secondPart >> thirdPart; // Extract the two parts
@@ -233,24 +233,22 @@ void GameManager::runLoadGame(int blockColor, int shipColor, int wallColor, int 
 				cout << "YOU WON!!!";
 			}
 			else
+			{
 				gameStatus = GAME_NEED_TO_RUN;
+				recording.open(fileName[screenPlay].substr(0, 4) + ".steps.txt");
+				result.open(fileName[screenPlay].substr(0, 4) + ".result.txt");
+			}
 		}
 	}
 
 	recording.close();
 	result.close();
 
-
+	clrscr();
 	if (diffResult)
-	{
-		clrscr();
 		cout << "result file is different than from result we got here";
-	}
 	else
-	{
-		clrscr();
 		cout << "same result file from before";
-	}
 }
 
 
