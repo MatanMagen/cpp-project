@@ -6,6 +6,8 @@
 #include "Block.h"
 #include "gameConfig.h"
 #include <conio.h>
+#include <vector>
+#include <fstream>
 
 #define INFO_SIZE_HEIGHT 3
 
@@ -20,7 +22,7 @@ class Board {
 	// the actual board that will be modified
 	char board[HEIGHT][WIDTH + 1];
 	Ship ships[NUM_SHIPS];
-	Block blocks[NUM_BLOCKS];
+	std::vector<Block> blocks;
 	Point legend_pos;
 	Point exit_pos;
 	int blockColor;
@@ -54,7 +56,7 @@ public:
 		return blocks[ch - 'a'];
 	}
 	Point& getLegend() {
-		return  legend_pos;
+		return legend_pos;
 	}
 };
 

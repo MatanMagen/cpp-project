@@ -1,7 +1,7 @@
+#include "block.h"
 #include "ship.h"
 #include "board.h"
 #include "general.h"
-#include "block.h"
 
 bool Block::move(GameConfig::eKeys direction, char ch, Board& board, bool isCarried, int maxMove)
 {
@@ -77,7 +77,7 @@ bool Block::ishitObject(GameConfig::eKeys direction, char ch, Board& board, bool
 	for (int i = 0; i < size; i++)
 	{
 		boardPlace = board.getBoard()[temp[i].getY()][temp[i].getX()];
-		if (boardPlace == 'W' || boardPlace == '@' || boardPlace == '#')
+		if (boardPlace == 'W' || boardPlace == '@' || boardPlace == '#'|| boardPlace == 'X')
 			hitObject = true;
 		if (boardPlace >= 'a' && boardPlace <= 'z' && boardPlace != ch)
 		{

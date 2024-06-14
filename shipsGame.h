@@ -18,7 +18,7 @@ class ShipsGame :public abs_Game
 {
 
 public:
-	int run(char mode, int numLifes, std::fstream& result, std::fstream& recording);
+	int run(char mode, int numLifes, std::ofstream& result, std::ofstream& recording);
 };
 
 #endif

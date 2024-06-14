@@ -1,8 +1,5 @@
 #include "abs_Game.h"
 #include "GameManager.h"
-#include <fstream>
-#include <iostream>
-#include <string>
 
 void abs_Game::gameInfo(char ship, int numLifes)
 {
@@ -37,32 +34,14 @@ void abs_Game::gameInfo(char ship, int numLifes)
 		cout << "          ";
 }
 
-char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode, int* statusGame)
+char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, char mode, int* statusGame)
 {
 
 	if (*statusGame == GAME_STOPED && keyPlay == (int)GameConfig::eKeys::EXIT)
 	{
-		if (mode == SAVE_MODE)
-		{
-			if (keyPlay != lastKey)
-			{
-				recording << time << " " << keyPlay << endl;
-				recording.flush();
-			}
-		}
-
 		clrscr();
 		cout << "\nexit game tnx";
 		*statusGame = GAME_EXIT;
-
-		if (mode == SAVE_MODE)
-		{
-			if (keyPlay != lastKey)
-			{
-				recording << time << " " << keyPlay << endl;
-				recording.flush();
-			}
-		}
 
 		return lastShip;
 	}
@@ -83,14 +62,6 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 			*statusGame = GAME_NEED_TO_RUN;
 			board.show();
 		}
-		if (mode == SAVE_MODE)
-		{
-			if (keyPlay != lastKey)
-			{
-				recording << time << " " << keyPlay << endl;
-				recording.flush();
-			}
-		}
 	}
 
 	if (keyPlay == (int)GameConfig::eKeys::SWAP_BIG_LOWER || keyPlay == (int)GameConfig::eKeys::SWAP_BIG)
@@ -99,15 +70,6 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 			lastShip = 'b';
 		else
 			lastShip = ' ';
-
-		if (mode == SAVE_MODE)
-		{
-			if (keyPlay != lastKey)
-			{
-				recording << time << " " << keyPlay << endl;
-				recording.flush();
-			}
-		}
 
 		return lastShip;
 	}
@@ -119,37 +81,19 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 		else
 			lastShip = ' ';
 
-		if (mode == SAVE_MODE)
-		{
-			if (keyPlay != lastKey)
-			{
-				recording << time << " " << keyPlay << endl;
-				recording.flush();
-			}
-		}
-
 		return lastShip;
 	}
 
 	return lastShip;
 }
 
-int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode)
+int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, int numLifes, char mode)
 {
 	int shipStatus = lastStatus, temp;
 	gameInfo(*lastShip, numLifes);
 	if (keyPlay != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
 		&& keyPlay != (int)GameConfig::eKeys::SWAP_BIG && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL && keyPlay != 0)
 	{
-		if (mode == SAVE_MODE)
-		{
-			if (keyPlay != lastKey)
-			{
-				recording << time << " " << keyPlay << endl;
-				recording.flush();
-			}
-		}
-
 		if (*lastShip == 'b' && lastStatus != BIG_SHIP_FINISH)
 		{
 			temp = board.getships(1).move((GameConfig::eKeys)keyPlay, board);
@@ -183,31 +127,32 @@ int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, i
 	return shipStatus;
 }
 
-int abs_Game::resultGame(char lastShip, int numLifes, int shipStatus, std::fstream& result)
+int abs_Game::resultGame(char mode, int numLifes, int shipStatus, std::ofstream& result)
 {
 	int possibleNextGame = GAME_NEED_TO_RUN;
-	if (time <= 0)
-	{
-		result << "time over -> lost life" << endl;
-		result.flush();
-		possibleNextGame = GAME_LOST;
-	}
 
-	if (shipStatus == SHIP_DIED)
+	if (shipStatus == SHIP_DIED || time <= 0)
 	{
-		result << time << " lost life" << endl;
-		result.flush();
 		possibleNextGame = GAME_LOST;
+
+		if (mode == SAVE_MODE)
+		{
+			result << time << " " << possibleNextGame << " lost life" << endl;
+			result.flush();
+		}
 	}
 
 	if (shipStatus == BOTH_FINISH)
 	{
 		possibleNextGame = GAME_WON;
-		result << time << " WIN!!!" << endl;
-		result.flush();
-		clrscr();
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), GameConfig::COLORS[0]);
+
+		if (mode == SAVE_MODE)
+		{
+			result << time << " " << possibleNextGame << " WIN!!!" << endl;
+			result.flush();
+		}
 	}
 
 	return possibleNextGame;
 }
+

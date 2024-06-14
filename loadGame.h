@@ -7,6 +7,8 @@
 #include "board.h"
 #include "abs_game.h"
 #include <fstream>
+#include <sstream>
+
 using namespace std;
 using std::string;
 
@@ -18,7 +20,7 @@ class loadGame :public abs_Game
 {
 
 public:
-	int run(char mode, int numLifes, std::fstream& result, std::fstream& recording);
+	int run(char mode, int numLifes, std::ifstream& recording, int *timeStatus);
 };
 
 #endif

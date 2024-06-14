@@ -1,5 +1,4 @@
 #include "board.h"
-#include <fstream>
 
 bool Board::readMap(std::string fileName) {
 	bool opend = true;
@@ -22,12 +21,13 @@ bool Board::readMap(std::string fileName) {
 		return false;
 	}
 
-
 	file.close();
 	return opend;
 }
 
 void Board::init(std::string fileName) {
+	std::vector<Block> currBlocks(MAX_BLOCKS);
+
 	if (!readMap(fileName))
 		return;
 	std::memcpy(board, original_board, sizeof(original_board));
@@ -50,9 +50,7 @@ void Board::init(std::string fileName) {
 			}
 			else if (board[i][j] >= 'a' && board[i][j] <= 'z') {
 				size_t block_index = board[i][j] - 'a';
-				blocks[block_index].addPoint(j, i);
-				//blocks[block_index].toFall(GameConfig::eKeys::DOWN, board[i][j], this->board, false)
-
+				currBlocks[block_index].addPoint(j, i);
 				//blocks[block_index].setBackgroundColor(blockColor);
 			}
 			else if (board[i][j] == 'X') {
@@ -60,6 +58,9 @@ void Board::init(std::string fileName) {
 			}
 		}
 	}
+
+	currBlocks.shrink_to_fit();
+	blocks = currBlocks;	
 }
 
 void Board::show() {

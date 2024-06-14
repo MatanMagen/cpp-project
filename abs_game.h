@@ -7,6 +7,9 @@
 #include "board.h"
 using namespace std;
 using std::string;
+#include <fstream>
+#include <iostream>
+#include <string>
 
 #define GAME_STOPED 0
 #define GAME_LOST 1
@@ -38,11 +41,11 @@ public:
 	{
 		return time;
 	}
+
 	virtual void gameInfo(char ship, int numLifes);
-	virtual int runStep(int keyPlay, int lastKey, char* lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode);
-	virtual char status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, std::fstream& recording, char mode, int* statusGame);
-	virtual int resultGame(char lastShip, int numLifes, int shipStatus, std::fstream& result);
+	virtual int runStep(int keyPlay, int lastKey, char* lastShip, int lastStatus, int numLifes, char mode);
+	virtual char status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, char mode, int* statusGame);
+	virtual int resultGame(char mode, int numLifes, int shipStatus, std::ofstream& result);
 
 };
-
 #endif

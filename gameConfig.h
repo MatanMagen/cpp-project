@@ -7,11 +7,14 @@
 #define WINNING_COLOR 228
 #define START_TIME 250
 #define START_LIFE 3
-#define NUM_BLOCKS 3
+#define MAX_BLOCKS 26
 #define BIG_SHIP_SIZE 4
 #define SMALL_SHIP_SIZE 2
 #define MAX_MOVE_BIG_SHIP 6
 #define MAX_MOVE_SMALL_SHIP 2
+#define SAVE_MODE 'r'
+#define LOAD_MODE 'l'
+#define SILENT_MODE 's'
 
 class GameConfig
 {

@@ -6,17 +6,17 @@
 namespace fs = std::filesystem;
 #include "shipsGame.h"
 #include "loadGame.h"
-
-#define SAVE_MODE 'r'
-#define LOAD_MODE 'l'
-#define SILENT_MODE 's'
+#include "gameConfig.h"
+#include <sstream>
 
 class GameManager
 {
 
 public:
-	void runShipsGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName, char mode, bool runSpecificGame, int screenPlay);
-	void gameMenu(std::string* screens, int numScreens, char mode);
+	void runLoadGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName, char mode);
+	void runShipGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName, char mode, bool runSpecificGame, int screenPlay);
+	//void runGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName, char mode, bool runSpecificGame, int screenPlay);
+	void menu(std::string* screens, int numScreens, char mode);
 	void playGame(int argc, char* argv[]);
 };
 
