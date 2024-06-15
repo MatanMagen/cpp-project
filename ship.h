@@ -43,7 +43,7 @@ public:
 	Point getPos(size_t i) const {
 		return pos[i];
 	}
-	int move(GameConfig::eKeys direction, Board& board);
+	int move(GameConfig::eKeys direction, Board& board, char mode);
 };
 
 #endif

@@ -5,7 +5,7 @@ int ShipsGame::run(char mode, int numLifes, std::ofstream& result, std::ofstream
 	int keyPlay = -1, lastKey = -1, statusGame = GAME_NEED_TO_RUN, shipStatus = SHIP_CAN_PLAY;
 	char currShip = 'b';
 
-	gameInfo(currShip, numLifes);
+	gameInfo(currShip, numLifes, mode);
 	while (true)
 	{
 		if (_kbhit())

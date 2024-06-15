@@ -115,62 +115,6 @@ void GameManager::menu(std::string* screens, int numScreens, char mode)
 	}
 }
 
-//void GameManager::runGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName, char mode, bool runSpecificGame, int screenPlay)
-//{
-//	int possibleNextGame = GAME_NEED_TO_RUN;
-//	int numLifes = START_LIFE;
-//
-//	if (mode == LOAD_MODE || mode == SILENT_MODE)
-//	{
-//
-//	}
-//	ofstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
-//
-//	while (possibleNextGame == GAME_NEED_TO_RUN || possibleNextGame == GAME_STOPED)
-//	{
-//		if (mode == LOAD_MODE || mode == SILENT_MODE)
-//			possibleNextGame = runLoadGame(blockColor, shipColor, wallColor, winningColor, fileName[screenPlay], mode, numLifes, result);
-//		else
-//			possibleNextGame = runShipGame(blockColor, shipColor, wallColor, winningColor, fileName[screenPlay], mode, numLifes, result);
-//
-//		if (possibleNextGame == GAME_EXIT)
-//			break;
-//		else if (possibleNextGame == GAME_LOST)
-//		{
-//			--numLifes;
-//
-//			if (numLifes == 0)
-//			{
-//				clrscr();
-//				cout << "you lost the game";
-//			}
-//			else
-//				possibleNextGame = GAME_NEED_TO_RUN;
-//		}
-//		else if (possibleNextGame == GAME_WON)
-//		{
-//			screenPlay++;
-//
-//			if (!runSpecificGame && screenPlay == 3 || runSpecificGame)
-//			{
-//				clrscr();
-//				cout << "YOU WON!!!";
-//			}
-//			else
-//			{
-//				possibleNextGame = GAME_NEED_TO_RUN;
-//
-//				if (mode != ' ')
-//				{
-//					result.close();
-//					ofstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
-//				}
-//			}
-//		}
-//	}
-//
-//	result.close();
-//}
 
 void GameManager::runLoadGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string* fileName, char mode)
 {
@@ -195,7 +139,8 @@ void GameManager::runLoadGame(int blockColor, int shipColor, int wallColor, int 
 		clrscr();
 		theGame.setColors(blockColor, shipColor, wallColor, winningColor);
 		theGame.init(fileName[screenPlay]);
-		theGame.showMenu();
+		if (mode != SILENT_MODE)
+			theGame.showMenu();
 		gameStatus = theGame.run(mode, numLifes, recording, &timeStatus);
 		
 		//Comparison between a desired result and what happened
@@ -230,7 +175,8 @@ void GameManager::runLoadGame(int blockColor, int shipColor, int wallColor, int 
 			if (screenPlay == 3)
 			{
 				clrscr();
-				cout << "YOU WON!!!";
+				if (mode != SILENT_MODE)
+					cout << "YOU WON!!!";
 			}
 			else
 			{
@@ -324,125 +270,3 @@ void GameManager::runShipGame(int blockColor, int shipColor, int wallColor, int 
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-//
-//void GameManager::runGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string * fileName, char mode, bool runSpecificGame, int screenPlay)
-//{
-//	int possibleNextGame = GAME_NEED_TO_RUN;
-//	int numLifes = START_LIFE;
-//
-//	if (mode == LOAD_MODE || mode == SILENT_MODE)
-//	{
-//
-//	}
-//	ofstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
-//
-//	while (possibleNextGame == GAME_NEED_TO_RUN || possibleNextGame == GAME_STOPED)
-//	{
-//		if (mode == LOAD_MODE || mode == SILENT_MODE)
-//			possibleNextGame = runLoadGame(blockColor, shipColor, wallColor, winningColor, fileName[screenPlay], mode, numLifes, result);
-//		else
-//			possibleNextGame = runShipGame(blockColor, shipColor, wallColor, winningColor, fileName[screenPlay], mode, numLifes, result);
-//
-//		if (possibleNextGame == GAME_EXIT)
-//			break;
-//		else if (possibleNextGame == GAME_LOST)
-//		{
-//			--numLifes;
-//
-//			if (numLifes == 0)
-//			{
-//				clrscr();
-//				cout << "you lost the game";
-//			}
-//			else
-//				possibleNextGame = GAME_NEED_TO_RUN;
-//		}
-//		else if (possibleNextGame == GAME_WON)
-//		{
-//			screenPlay++;
-//
-//			if (!runSpecificGame && screenPlay == 3 || runSpecificGame)
-//			{
-//				clrscr();
-//				cout << "YOU WON!!!";
-//			}
-//			else
-//			{
-//				possibleNextGame = GAME_NEED_TO_RUN;
-//
-//				if (mode != ' ')
-//				{
-//					result.close();
-//					ofstream result(fileName[screenPlay].substr(0, 4) + ".result.txt");
-//				}
-//			}
-//		}
-//	}
-//
-//	result.close();
-//}
-//
-//int GameManager::runLoadGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string fileName, char mode, int numLifes, std::ofstream & result)
-//{
-//	int possibleNextGame;
-//
-//	ifstream recording;
-//	recording.open(fileName.substr(0, 4) + ".steps.txt");
-//
-//	if (!recording.is_open())
-//		std::cerr << "Failed to open file." << std::endl;
-//
-//	loadGame theGame;
-//	clrscr();
-//	theGame.setColors(blockColor, shipColor, wallColor, winningColor);
-//	theGame.init(fileName);
-//	theGame.showMenu();
-//	possibleNextGame = theGame.run(mode, numLifes, result, recording);
-//	recording.close();
-//
-//	return possibleNextGame;
-//}
-//
-//int GameManager::runShipGame(int blockColor, int shipColor, int wallColor, int winningColor, std::string fileName, char mode, int numLifes, std::ofstream & result)
-//{
-//	int possibleNextGame;
-//
-//	ofstream recording(fileName.substr(0, 4) + ".steps.txt");
-//	if (!recording.is_open())
-//		std::cerr << "Failed to open file." << std::endl;
-//
-//	ShipsGame theGame;
-//	clrscr();
-//	theGame.setColors(blockColor, shipColor, wallColor, winningColor);
-//	theGame.init(fileName);
-//	theGame.showMenu();
-//	possibleNextGame = theGame.run(mode, numLifes, result, recording);
-//	recording.close();
-//
-//	return possibleNextGame;
-//}
-//
-//int GameManager::getLastResult(std::string fileName)
-//{
-//	//can be max 3 lines in file (you ha
-//	std::string LastResult[4]
-//		ifstream result(fileName.substr(0, 4) + ".result.txt");
-//	if (result.is_open()) {
-//		std::string line;
-//		while (std::getline(result, line)) {
-//			std::cout << line << std::endl;
-//		}
-//		result.close();
-//	}
-//}

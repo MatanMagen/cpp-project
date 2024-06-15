@@ -1,7 +1,7 @@
 #include "abs_Game.h"
 #include "GameManager.h"
 
-void abs_Game::gameInfo(char ship, int numLifes)
+void abs_Game::gameInfo(char ship, int numLifes, char mode)
 {
 	Point legend_pos = board.getLegend();
 
@@ -9,29 +9,37 @@ void abs_Game::gameInfo(char ship, int numLifes)
 
 	if (time < 100)
 	{
-		cout << "0";
-		if (time < 10)
+		if (mode != SILENT_MODE)
 			cout << "0";
+		if (time < 10)
+			if (mode != SILENT_MODE)
+				cout << "0";
 	}
 
-	cout << time;
+	if (mode != SILENT_MODE)
+		cout << time;
 	time--;
 
 	gotoxy(legend_pos.getX() + 30, legend_pos.getY() + 1);
 	for (int i = 0; i < START_LIFE; i++)
-		cout << "\b \b";
+		if (mode != SILENT_MODE)
+			cout << "\b \b";
 
 	for (int i = 0; i < numLifes; i++)
-		cout << "*";
+		if (mode != SILENT_MODE)
+			cout << "*";
 
 	gotoxy(legend_pos.getX() + 27, legend_pos.getY() + 2);
 
-	if (ship == 'b')
-		cout << "big ship  ";
-	else if (ship == 's')
-		cout << "small ship";
-	else
-		cout << "          ";
+	if (mode != SILENT_MODE)
+	{
+		if (ship == 'b')
+			cout << "big ship  ";
+		else if (ship == 's')
+			cout << "small ship";
+		else
+			cout << "          ";
+	}
 }
 
 char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, char mode, int* statusGame)
@@ -47,8 +55,8 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 	}
 	if (keyPlay == (int)GameConfig::eKeys::ESC)
 	{
-		board.getships(0).move(GameConfig::eKeys::PAUSE, board);
-		board.getships(1).move(GameConfig::eKeys::PAUSE, board);
+		board.getships(0).move(GameConfig::eKeys::PAUSE, board, mode);
+		board.getships(1).move(GameConfig::eKeys::PAUSE, board, mode);
 		keyPlay = 0;
 		if (*statusGame != GAME_STOPED)
 		{
@@ -90,13 +98,13 @@ char abs_Game::status(int keyPlay, int lastKey, char lastShip, int lastStatus, i
 int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, int numLifes, char mode)
 {
 	int shipStatus = lastStatus, temp;
-	gameInfo(*lastShip, numLifes);
+	gameInfo(*lastShip, numLifes, mode);
 	if (keyPlay != (int)GameConfig::eKeys::SWAP_BIG_LOWER && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL_LOWER
 		&& keyPlay != (int)GameConfig::eKeys::SWAP_BIG && keyPlay != (int)GameConfig::eKeys::SWAP_SMALL && keyPlay != 0)
 	{
 		if (*lastShip == 'b' && lastStatus != BIG_SHIP_FINISH)
 		{
-			temp = board.getships(1).move((GameConfig::eKeys)keyPlay, board);
+			temp = board.getships(1).move((GameConfig::eKeys)keyPlay, board, mode);
 			if (temp == SHIP_FINISH)
 			{
 				if (shipStatus == SMALL_SHIP_FINISH)
@@ -110,7 +118,7 @@ int abs_Game::runStep(int keyPlay,int lastKey, char* lastShip, int lastStatus, i
 		}
 		if (*lastShip == 's' && lastStatus != SMALL_SHIP_FINISH)
 		{
-			temp = board.getships(0).move((GameConfig::eKeys)keyPlay, board);
+			temp = board.getships(0).move((GameConfig::eKeys)keyPlay, board,mode);
 			if (temp == SHIP_FINISH)
 			{
 				if (shipStatus == BIG_SHIP_FINISH)

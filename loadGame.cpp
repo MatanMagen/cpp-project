@@ -11,7 +11,7 @@ int loadGame::run(char mode, int numLifes, std::ifstream& recording, int *timeSt
 	int firstPart, secondPart;
 	ofstream temp;
 
-	gameInfo(currShip, numLifes);
+	gameInfo(currShip, numLifes, mode);
 
 	getline(recording, line);
 	std::istringstream lineStream(line);
@@ -34,7 +34,8 @@ int loadGame::run(char mode, int numLifes, std::ifstream& recording, int *timeSt
 		}
 		if (statusGame == GAME_NEED_TO_RUN)
 		{
-			Sleep(200);
+			if (mode != SILENT_MODE)
+				Sleep(200);
 			shipStatus = runStep(keyPlay, lastKey, &currShip, shipStatus, numLifes, mode);
 			statusGame = resultGame(mode, numLifes, shipStatus, temp);
 		}

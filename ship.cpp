@@ -3,7 +3,7 @@
 #include "block.h"
 
 //function move the ship and return if ship finshed the game 
-int Ship::move(GameConfig::eKeys direction, Board& board)
+int Ship::move(GameConfig::eKeys direction, Board& board, char mode)
 {
 	bool hitwall = false, hitBlock = false, toStop = false, hitOtherPlayer = false, carryingBrick = false;
 	int sizeBlock, xBlock, yBlock;
@@ -54,7 +54,8 @@ int Ship::move(GameConfig::eKeys direction, Board& board)
 			{
 				for (int i = 0; i < size; i++)
 				{
-					pos[i].draw(' ', 15);
+					if(mode != SILENT_MODE)
+						pos[i].draw(' ', 15);
 					board.getBoard()[pos[i].getY()][pos[i].getX()] = ' ';
 				}
 
@@ -95,7 +96,8 @@ int Ship::move(GameConfig::eKeys direction, Board& board)
 			{
 				for (int i = 0; i < size; i++)
 				{
-					pos[i].draw(' ', GameConfig::COLORS[0]);
+					if (mode != SILENT_MODE)
+						pos[i].draw(' ', GameConfig::COLORS[0]);
 				}
 
 				for (int i = 0; i < size; i++)
@@ -106,7 +108,8 @@ int Ship::move(GameConfig::eKeys direction, Board& board)
 				for (int i = 0; i < size; i++)
 				{
 					pos[i].move(direction);
-					pos[i].draw(shipType, GameConfig::COLORS[0]);
+					if (mode != SILENT_MODE)
+						pos[i].draw(shipType, GameConfig::COLORS[0]);
 				}
 
 				for (int i = 0; i < size; i++)

@@ -42,7 +42,7 @@ public:
 		return time;
 	}
 
-	virtual void gameInfo(char ship, int numLifes);
+	virtual void gameInfo(char ship, int numLifes, char mode);
 	virtual int runStep(int keyPlay, int lastKey, char* lastShip, int lastStatus, int numLifes, char mode);
 	virtual char status(int keyPlay, int lastKey, char lastShip, int lastStatus, int numLifes, char mode, int* statusGame);
 	virtual int resultGame(char mode, int numLifes, int shipStatus, std::ofstream& result);
