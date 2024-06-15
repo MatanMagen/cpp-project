@@ -1,0 +1,8 @@
+.steps file is written like this:
+In the left column is the time when the action took place
+The right column has the ascii value of that step. That is, there will be the value 100 for the letter d which, as we know, represents movement to the right
+
+.result file is written like this:
+In the left column is the time when the action took place
+The middle column has the operation status
+The right column has the translation of the status
